@@ -1,3 +1,6 @@
-# git and github for some shitty clicker
+# Darker & Darker
 
-some text idk i`m not a writer
+To do:
+-start UI
+
+Done:
