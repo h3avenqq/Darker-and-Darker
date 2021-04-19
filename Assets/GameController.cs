@@ -2,11 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class GameController : MonoBehaviour
 {
     public double money;
     public double dph;
+    public double dps;
     public double health;
     public double healthMax
     {
@@ -39,14 +41,22 @@ public class GameController : MonoBehaviour
     public Image healthBar;
     public Image timerBar;
 
+    //OFFLINE
+    public DateTime currentTime;
+    public DateTime oldTime;
+    public int OfflineProgressCheck;
+    public float IdleTime;
+    public Text offlineTimeText;
+    public float saveTime;
+    public GameObject offlineBox;
+    public int offlineLoadCount;
+
     public void Start()
     {
-        dph = 1;
-        stage = 1;
-        stageMax = 1;
-        killsMax = 10;
-        health = 10;
-        isBoss = 1;
+        offlineBox.gameObject.SetActive(false);
+        Load();
+        IsBossChecker();
+        health = healthMax;
         timerMax = 30;
     }
 
@@ -69,6 +79,13 @@ public class GameController : MonoBehaviour
             forward.gameObject.SetActive(false);
 
         IsBossChecker();
+
+        saveTime += Time.deltaTime;
+        if (saveTime >= 5)
+        {
+            saveTime = 0;
+            Save();
+        }
     }
 
     public void IsBossChecker()
@@ -78,17 +95,13 @@ public class GameController : MonoBehaviour
         {
             isBoss = 10;
             stageText.text = "BOSS!";
-            killsMax = 1;
-            timer = timerMax;
             timer -= Time.deltaTime;
-            if (timer <= 0)
-            {
-                stage -= 1;
-                health = healthMax;
-            }
-            timerText.text = timer + "/" + timerMax;
+            if (timer <= 0) Back();
+
+            timerText.text = timer + "s";
             timerBar.gameObject.SetActive(true);
             timerBar.fillAmount = timer / timerMax;
+            killsMax = 1;
         }
         else
         {
@@ -96,6 +109,8 @@ public class GameController : MonoBehaviour
             stageText.text = "Stage " + stage;
             timerText.text = "";
             timerBar.gameObject.SetActive(false);
+            timer = 30;
+            killsMax = 10;
         }
     }
 
@@ -117,16 +132,76 @@ public class GameController : MonoBehaviour
             }
             IsBossChecker();
             health = healthMax;
+            if (isBoss > 1) timer = timerMax;
             killsMax = 10;
         }
     }
 
-     public void Back()
-     {
-         if (stage > 1) stage -= 1;
-     }
-     public void Forward()
-     {
-         if (stage != stageMax) stage += 1;
-     }
+    public void Back()
+    {
+       stage -= 1;
+       IsBossChecker();
+       health = healthMax;
+    }
+    public void Forward()                      
+    {                                          
+       stage += 1;                             
+       IsBossChecker();                        
+       health = healthMax;                     
+    }                                          
+
+    public void Save()
+    {
+        OfflineProgressCheck = 1;
+        PlayerPrefs.SetString("money", money.ToString());
+        PlayerPrefs.SetString("dph", dph.ToString());
+        PlayerPrefs.SetString("dps", dps.ToString());
+        PlayerPrefs.SetInt("stage", stage);
+        PlayerPrefs.SetInt("stageMax", stageMax);
+        PlayerPrefs.SetInt("kills", kills);
+        PlayerPrefs.SetInt("killsMax", killsMax);
+        PlayerPrefs.SetInt("isBoss", isBoss);
+        PlayerPrefs.SetInt("OfflineProgressCheck", OfflineProgressCheck);
+
+        PlayerPrefs.SetString("OfflineTime", DateTime.Now.ToBinary().ToString());OfflineProgressCheck = 1;
+    }
+
+    public void Load()
+    {              
+        money = double.Parse(PlayerPrefs.GetString("money", "0"));
+        dph = double.Parse(PlayerPrefs.GetString("dph", "1"));
+        dps = double.Parse(PlayerPrefs.GetString("dps", "1"));
+        stage = PlayerPrefs.GetInt("stage", 1);
+        stageMax = PlayerPrefs.GetInt("stageMax", 1);
+        kills = PlayerPrefs.GetInt("kills", 0);
+        killsMax = PlayerPrefs.GetInt("killsMax", 10);
+        isBoss = PlayerPrefs.GetInt("isBoss", 1);
+        OfflineProgressCheck = PlayerPrefs.GetInt("OfflineProgressCheck", 0);
+        LoadOfflineProduction();
+    } 
+
+
+    public void LoadOfflineProduction()
+    {
+        if (OfflineProgressCheck == 1)
+        {
+            offlineBox.gameObject.SetActive(true);
+            long previousTime = Convert.ToInt64(PlayerPrefs.GetString("OfflineTime"));
+            oldTime = DateTime.FromBinary(previousTime);
+            currentTime = DateTime.Now;
+            TimeSpan difference = currentTime.Subtract(oldTime);
+            IdleTime = (float)difference.TotalSeconds;
+
+            var moneyToEarn = Math.Ceiling(healthMax / 14) / healthMax *(dps / 5) * IdleTime;
+            money += moneyToEarn;
+            TimeSpan timer = TimeSpan.FromSeconds(IdleTime);
+
+            offlineTimeText.text = "You were gone for: " + timer.ToString(@"hh\:mm\:ss") + "\nand earned " + moneyToEarn.ToString("F2") + " coins";
+        }
+    }
+
+    public void CloseOfflineBox()
+    {
+        offlineBox.gameObject.SetActive(false);
+    }
 }
