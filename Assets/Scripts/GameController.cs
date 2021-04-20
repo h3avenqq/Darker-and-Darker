@@ -80,10 +80,13 @@ public class GameController : MonoBehaviour
     }
 
     public void Update()
-    {   
+    {
+        if (health <= 0) Kill();
+        else
+            health -= dps * Time.deltaTime;
+
         //Multiplier
         multValueMoney = multValue * moneyPerSec;
-        timerMult -= Time.deltaTime;
         multText.text = multValueMoney.ToString("F2");
         if (timerMult <= 0) multBox.gameObject.SetActive(true);
         else
@@ -93,7 +96,7 @@ public class GameController : MonoBehaviour
         dPHText.text = "Damage Per Hit: " + dph;
         stageText.text = "Stage " + stage;
         killsText.text = kills + "/" + killsMax + " kills";
-        healthText.text = health + "/" + healthMax + " HP";
+        healthText.text = health.ToString("F2") + "/" + healthMax + " HP";
 
         healthBar.fillAmount = (float)(health / healthMax);
 
@@ -146,6 +149,12 @@ public class GameController : MonoBehaviour
         health -= dph;
         if (health <= 0)
         {
+            Kill();
+        }
+    }
+
+    public void Kill()
+    {
             money += System.Math.Ceiling(healthMax / 14);
             if (stage == stageMax)
             {
@@ -161,7 +170,6 @@ public class GameController : MonoBehaviour
             health = healthMax;
             if (isBoss > 1) timer = timerMax;
             killsMax = 10;
-        }
     }
 
     public void Back()
