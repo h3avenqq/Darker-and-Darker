@@ -7,6 +7,13 @@ using System;
 public class GameController : MonoBehaviour
 {
     public double money;
+    public double moneyPerSec
+    {
+        get
+        {
+            return Math.Ceiling(healthMax / 14) / healthMax * dps;
+        }
+    }
     public double dph;
     public double dps;
     public double health;
@@ -51,17 +58,37 @@ public class GameController : MonoBehaviour
     public GameObject offlineBox;
     public int offlineLoadCount;
 
+    //Multiplier
+    public Text multText;
+    public double multValue;
+    public float timerMult;
+    public float TimerMultMax;
+    public double multValueMoney;
+    public GameObject multBox;
+
     public void Start()
     {
         offlineBox.gameObject.SetActive(false);
+        multBox.gameObject.SetActive(false);
         Load();
         IsBossChecker();
         health = healthMax;
-        timerMax = 30;
+        timerMax = 30;        
+        multValue = new System.Random().Next(20,100);
+        TimerMultMax = new System.Random().Next(5, 10);
+        timerMult = TimerMultMax;
     }
 
     public void Update()
-    {
+    {   
+        //Multiplier
+        multValueMoney = multValue * moneyPerSec;
+        timerMult -= Time.deltaTime;
+        multText.text = multValueMoney.ToString("F2");
+        if (timerMult <= 0) multBox.gameObject.SetActive(true);
+        else
+            timerMult -= Time.deltaTime;
+
         moneyText.text = "Gold: " + money.ToString("F2");
         dPHText.text = "Damage Per Hit: " + dph;
         stageText.text = "Stage " + stage;
@@ -98,7 +125,7 @@ public class GameController : MonoBehaviour
             timer -= Time.deltaTime;
             if (timer <= 0) Back();
 
-            timerText.text = timer + "s";
+            timerText.text = timer.ToString("F2") + "s";
             timerBar.gameObject.SetActive(true);
             timerBar.fillAmount = timer / timerMax;
             killsMax = 1;
@@ -203,5 +230,14 @@ public class GameController : MonoBehaviour
     public void CloseOfflineBox()
     {
         offlineBox.gameObject.SetActive(false);
+    }
+
+    public void OpenMult()
+    {
+        multBox.gameObject.SetActive(false);
+        money += multValueMoney;
+        TimerMultMax = new System.Random().Next(5, 10);
+        timerMult = TimerMultMax;
+        multValue = new System.Random().Next(20, 100);
     }
 }
