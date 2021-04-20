@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using TMPro;
 
 public class GameController : MonoBehaviour
 {
@@ -24,7 +25,6 @@ public class GameController : MonoBehaviour
             return 10 * System.Math.Pow(2, stage - 1) * isBoss;
         }
     }
-    public double reward;
 
     public float timer;
 
@@ -66,11 +66,21 @@ public class GameController : MonoBehaviour
     public double multValueMoney;
     public GameObject multBox;
 
+    //Username
+    public TMP_InputField usernameInput;
+    public string username;
+    public Text usernameText;
+    public GameObject usernameBox;
+
     public void Start()
     {
         offlineBox.gameObject.SetActive(false);
         multBox.gameObject.SetActive(false);
         Load();
+        if (username == "<Username>")
+            usernameBox.gameObject.SetActive(true);
+        else
+            usernameBox.gameObject.SetActive(false);
         IsBossChecker();
         health = healthMax;
         timerMax = 30;        
@@ -109,6 +119,7 @@ public class GameController : MonoBehaviour
             forward.gameObject.SetActive(false);
 
         IsBossChecker();
+        usernameText.text = username;
 
         saveTime += Time.deltaTime;
         if (saveTime >= 5)
@@ -116,6 +127,15 @@ public class GameController : MonoBehaviour
             saveTime = 0;
             Save();
         }
+    }
+
+    public void UsernameChange()
+    {
+        username = usernameInput.text;
+    }
+    public void CloseUsernameBox()
+    {
+        usernameBox.gameObject.SetActive(false);
     }
 
     public void IsBossChecker()
@@ -191,13 +211,14 @@ public class GameController : MonoBehaviour
         PlayerPrefs.SetString("money", money.ToString());
         PlayerPrefs.SetString("dph", dph.ToString());
         PlayerPrefs.SetString("dps", dps.ToString());
+        PlayerPrefs.SetString("username", username.ToString());
         PlayerPrefs.SetInt("stage", stage);
         PlayerPrefs.SetInt("stageMax", stageMax);
         PlayerPrefs.SetInt("kills", kills);
         PlayerPrefs.SetInt("killsMax", killsMax);
         PlayerPrefs.SetInt("isBoss", isBoss);
         PlayerPrefs.SetInt("OfflineProgressCheck", OfflineProgressCheck);
-
+        
         PlayerPrefs.SetString("OfflineTime", DateTime.Now.ToBinary().ToString());OfflineProgressCheck = 1;
     }
 
@@ -212,6 +233,7 @@ public class GameController : MonoBehaviour
         killsMax = PlayerPrefs.GetInt("killsMax", 10);
         isBoss = PlayerPrefs.GetInt("isBoss", 1);
         OfflineProgressCheck = PlayerPrefs.GetInt("OfflineProgressCheck", 0);
+        username = PlayerPrefs.GetString("username", "<Username>");
         LoadOfflineProduction();
     } 
 
