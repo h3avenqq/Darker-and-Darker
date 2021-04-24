@@ -7,32 +7,26 @@ using TMPro;
 
 public class GameController : MonoBehaviour
 {
-    public double money;
+    public Data data;
+
     public double moneyPerSec
     {
         get
         {
-            return Math.Ceiling(healthMax / 14) / healthMax * dps;
+            return Math.Ceiling(healthMax / 14) / healthMax * data.dps;
         }
     }
-    public double dph;
-    public double dps;
     public double health;
     public double healthMax
     {
         get
         {
-            return 10 * System.Math.Pow(2, stage - 1) * isBoss;
+            return 10 * System.Math.Pow(2, data.stage - 1) * data.isBoss;
         }
     }
 
     public float timer;
 
-    public int stage;
-    public int stageMax;
-    public int kills;
-    public int killsMax;
-    public int isBoss;
     public int timerMax;
 
     public Text moneyText;
@@ -52,26 +46,24 @@ public class GameController : MonoBehaviour
     //OFFLINE
     public DateTime currentTime;
     public DateTime oldTime;
-    public int OfflineProgressCheck;
     public float IdleTime;
-    public Text offlineTimeText;                             
-    public float saveTime;                                   
-    public GameObject offlineBox;                            
-    public int offlineLoadCount;                             
-                                                             
+    public Text offlineTimeText;
+    public float saveTime;
+    public GameObject offlineBox;
+    public int offlineLoadCount;
+
     //Multiplier                                             
-    public Text multText;                                    
-    public double multValue;                                 
-    public float timerMult;                                  
-    public float TimerMultMax;                               
-    public double multValueMoney;                            
-    public GameObject multBox;                               
-                                                             
+    public Text multText;
+    public double multValue;
+    public float timerMult;
+    public float TimerMultMax;
+    public double multValueMoney;
+    public GameObject multBox;
+
     //Username                                               
-    public TMP_InputField usernameInput;                     
-    public string username;                                  
-    public Text usernameText;                                
-    public GameObject usernameBox;                           
+    public TMP_InputField usernameInput;
+    public Text usernameText;
+    public GameObject usernameBox;
 
     //Upgrades
     public Text heroCostText;
@@ -81,15 +73,14 @@ public class GameController : MonoBehaviour
     {
         get
         {
-            return 10 * Math.Pow(1.07, heroLevel);
+            return 10 * Math.Pow(1.07, data.heroLevel);
         }
     }
-    public int heroLevel;
     public double heroPower
     {
         get
         {
-            return 5 * heroLevel;
+            return 5 * data.heroLevel;
         }
     }
     public Text playerCostText;
@@ -99,43 +90,48 @@ public class GameController : MonoBehaviour
     {
         get
         {
-            return 10 * Math.Pow(1.07, playerLevel);
+            return 10 * Math.Pow(1.07, data.playerLevel);
         }
     }
-    public int playerLevel;
     public double playerPower
     {
         get
         {
-            return 2 * playerLevel;
+            return 2 * data.playerLevel;
         }
     }
 
     //BG
     public Image bgBoss;
 
+    private const string dataFileName = "Darker&Darker";
     public void Start()
     {
+        data = SaveSystem.SaveExists("Darker&Darker") 
+            ? SaveSystem.LoadData<Data>("Darker&Darker") 
+            : new Data();
         offlineBox.gameObject.SetActive(false);
         multBox.gameObject.SetActive(false);
-        Load();
-        if (username == "<Username>")
+        LoadOfflineProduction();
+        if (data.username == "<Username>")
             usernameBox.gameObject.SetActive(true);
         else
             usernameBox.gameObject.SetActive(false);
         IsBossChecker();
         health = healthMax;
-        timerMax = 30;        
-        multValue = new System.Random().Next(20,100);
+        timerMax = 30;
+        multValue = new System.Random().Next(20, 100);
         TimerMultMax = new System.Random().Next(5, 10);
         timerMult = TimerMultMax;
     }
+
+    public float SaveTime;
 
     public void Update()
     {
         if (health <= 0) Kill();
         else
-            health -= dps * Time.deltaTime;
+            health -= data.dps * Time.deltaTime;
 
         //Multiplier
         multValueMoney = multValue * moneyPerSec;
@@ -144,51 +140,52 @@ public class GameController : MonoBehaviour
         else
             timerMult -= Time.deltaTime;
 
-        moneyText.text = "Gold: " + WordNotation(money, "F2");
-        dPHText.text = "Damage Per Hit: " + WordNotation(dph, "F2");
-        dPSText.text = "Damage Per Second: " + WordNotation(dps, "F2");
-        stageText.text = "Stage " + stage;
-        killsText.text = kills + "/" + killsMax + " kills";
+        moneyText.text = "Gold: " + WordNotation(data.money, "F2");
+        dPHText.text = "Damage Per Hit: " + WordNotation(data.dph, "F2");
+        dPSText.text = "Damage Per Second: " + WordNotation(data.dps, "F2");
+        stageText.text = "Stage " + data.stage;
+        killsText.text = data.kills + "/" + data.killsMax + " kills";
         healthText.text = WordNotation(health, "F2") + "/" + WordNotation(healthMax, "F2") + " HP";
 
         healthBar.fillAmount = (float)(health / healthMax);
 
-        if (stage > 1) back.gameObject.SetActive(true);
+        if (data.stage > 1) back.gameObject.SetActive(true);
         else
             back.gameObject.SetActive(false);
 
-        if (stage != stageMax) forward.gameObject.SetActive(true);
+        if (data.stage != data.stageMax) forward.gameObject.SetActive(true);
         else
             forward.gameObject.SetActive(false);
 
         IsBossChecker();
-        usernameText.text = username;
+        usernameText.text = data.username;
         Upgrades();
 
-        saveTime += Time.deltaTime;
-        if (saveTime >= 5)
+        SaveTime += Time.deltaTime * (1 / Time.timeScale);
+        if (SaveTime >= 15)
         {
+            SaveSystem.SaveData(data, dataFileName);
             saveTime = 0;
-            Save();
+            SaveOfflineTime();
         }
     }
 
     public void Upgrades()
     {
-        playerCostText.text = WordNotation(playerCost, "F2") + " coins" ;
-        playerLevelText.text = "Level: " + playerLevel;
+        playerCostText.text = WordNotation(playerCost, "F2") + " coins";
+        playerLevelText.text = "Level: " + data.playerLevel;
         playerPowerText.text = "+" + playerPower + " per hit";
 
         heroCostText.text = WordNotation(heroCost, "F2") + " coins";
-        heroLevelText.text = "Level: " + heroLevel;
+        heroLevelText.text = "Level: " + data.heroLevel;
         heroPowerText.text = "+" + heroPower + " per sec";
-        dps = heroPower;
-        dph = 1 + playerPower;
+        data.dps = heroPower;
+        data.dph = 1 + playerPower;
     }
 
     public void UsernameChange()
     {
-        username = usernameInput.text;
+        data.username = usernameInput.text;
     }
     public void CloseUsernameBox()
     {
@@ -198,9 +195,9 @@ public class GameController : MonoBehaviour
     public void IsBossChecker()
     {
 
-        if (stage % 5 == 0)
+        if (data.stage % 5 == 0)
         {
-            isBoss = 10;
+            data.isBoss = 10;
             stageText.text = "BOSS!";
             timer -= Time.deltaTime;
             if (timer <= 0) Back();
@@ -208,24 +205,24 @@ public class GameController : MonoBehaviour
             timerText.text = timer.ToString("F2") + "s";
             timerBar.gameObject.SetActive(true);
             timerBar.fillAmount = timer / timerMax;
-            killsMax = 1;
+            data.killsMax = 1;
             bgBoss.gameObject.SetActive(true);
         }
         else
         {
-            isBoss = 1;
-            stageText.text = "Stage " + stage;
+            data.isBoss = 1;
+            stageText.text = "Stage " + data.stage;
             timerText.text = "";
             timerBar.gameObject.SetActive(false);
             timer = 30;
-            killsMax = 10;
+            data.killsMax = 10;
             bgBoss.gameObject.SetActive(false);
         }
     }
 
     public void Hit()
     {
-        health -= dph;
+        health -= data.dph;
         if (health <= 0)
         {
             Kill();
@@ -234,52 +231,52 @@ public class GameController : MonoBehaviour
 
     public void Kill()
     {
-            money += System.Math.Ceiling(healthMax / 14);
-            if (stage == stageMax)
+        data.money += System.Math.Ceiling(healthMax / 14);
+        if (data.stage == data.stageMax)
+        {
+            data.kills += 1;
+            if (data.kills >= data.killsMax)
             {
-                kills += 1;
-                if (kills >= killsMax)
-                {
-                    kills = 0;
-                    stage += 1;
-                    stageMax += 1;
-                }
+                data.kills = 0;
+                data.stage += 1;
+                data.stageMax += 1;
             }
-            IsBossChecker();
-            health = healthMax;
-            if (isBoss > 1) timer = timerMax;
-            killsMax = 10;
+        }
+        IsBossChecker();
+        health = healthMax;
+        if (data.isBoss > 1) timer = timerMax;
+        data.killsMax = 10;
     }
 
     public void Back()
     {
-       stage -= 1;
-       IsBossChecker();
-       health = healthMax;
+        data.stage -= 1;
+        IsBossChecker();
+        health = healthMax;
     }
-    public void Forward()                      
-    {                                          
-       stage += 1;                             
-       IsBossChecker();                        
-           health = healthMax;                     
+    public void Forward()
+    {
+        data.stage += 1;
+        IsBossChecker();
+        health = healthMax;
     }
-    
+
     public void BuyUpgrade(string id)
     {
         switch (id)
         {
             case "hero1":
-                if (money >= heroCost) UpgradeDefaults(ref heroLevel, heroCost);
+                if (data.money >= heroCost) UpgradeDefaults(ref data.heroLevel, heroCost);
                 break;
             case "player1":
-                if (money >= playerCost) UpgradeDefaults(ref playerLevel, playerCost);
+                if (data.money >= playerCost) UpgradeDefaults(ref data.playerLevel, playerCost);
                 break;
         }
     }
-    
+
     public void UpgradeDefaults(ref int level, double cost)
     {
-        money -= cost;
+        data.money -= cost;
         level++;
     }
 
@@ -302,47 +299,16 @@ public class GameController : MonoBehaviour
             return (number / Math.Pow(10, digitsEvery3)).ToString(digits) + prefixes[digitsEvery3];
         return number.ToString(digits);
     }
-    
-    public void Save()
-     {
-        OfflineProgressCheck = 1;
-        PlayerPrefs.SetString("money", money.ToString());
-        PlayerPrefs.SetString("dph", dph.ToString());
-        PlayerPrefs.SetString("dps", dps.ToString());
-        PlayerPrefs.SetString("username", username.ToString());
-        PlayerPrefs.SetInt("stage", stage);
-        PlayerPrefs.SetInt("stageMax", stageMax);
-        PlayerPrefs.SetInt("kills", kills);
-        PlayerPrefs.SetInt("killsMax", killsMax);
-        PlayerPrefs.SetInt("isBoss", isBoss);
-        PlayerPrefs.SetInt("heroLevel", heroLevel);
-        PlayerPrefs.SetInt("playerLevel", playerLevel);
-        PlayerPrefs.SetInt("OfflineProgressCheck", OfflineProgressCheck);
-        
-        PlayerPrefs.SetString("OfflineTime", DateTime.Now.ToBinary().ToString());OfflineProgressCheck = 1;
-     }
-    
-    public void Load()
-    {              
-        money = double.Parse(PlayerPrefs.GetString("money", "0"));
-        dph = double.Parse(PlayerPrefs.GetString("dph", "1"));
-        dps = double.Parse(PlayerPrefs.GetString("dps", "0"));
-        stage = PlayerPrefs.GetInt("stage", 1);
-        stageMax = PlayerPrefs.GetInt("stageMax", 1);
-        kills = PlayerPrefs.GetInt("kills", 0);
-        killsMax = PlayerPrefs.GetInt("killsMax", 10);
-        isBoss = PlayerPrefs.GetInt("isBoss", 1);
-        heroLevel = PlayerPrefs.GetInt("heroLevel", 0);
-        playerLevel = PlayerPrefs.GetInt("playerLevel", 0);
-        OfflineProgressCheck = PlayerPrefs.GetInt("OfflineProgressCheck", 0);
-        username = PlayerPrefs.GetString("username", "<Username>");
-        LoadOfflineProduction();
-    } 
 
+    public void SaveOfflineTime()
+    {
+        PlayerPrefs.SetString("OfflineTime", DateTime.Now.ToBinary().ToString());
+        data.OfflineProgressCheck = 1;
+    }
 
     public void LoadOfflineProduction()
     {
-        if (OfflineProgressCheck == 1)
+        if (data.OfflineProgressCheck == 1)
         {
             offlineBox.gameObject.SetActive(true);
             long previousTime = Convert.ToInt64(PlayerPrefs.GetString("OfflineTime"));
@@ -351,8 +317,8 @@ public class GameController : MonoBehaviour
             TimeSpan difference = currentTime.Subtract(oldTime);
             IdleTime = (float)difference.TotalSeconds;
 
-            var moneyToEarn = Math.Ceiling(healthMax / 14) / healthMax *(dps / 5) * IdleTime;
-            money += moneyToEarn;
+            var moneyToEarn = Math.Ceiling(healthMax / 14) / healthMax * (data.dps / 5) * IdleTime;
+            data.money += moneyToEarn;
             TimeSpan timer = TimeSpan.FromSeconds(IdleTime);
 
             offlineTimeText.text = "You were gone for: " + timer.ToString(@"hh\:mm\:ss") + "\nand earned " + moneyToEarn.ToString("F2") + " coins";
@@ -367,7 +333,7 @@ public class GameController : MonoBehaviour
     public void OpenMult()
     {
         multBox.gameObject.SetActive(false);
-        money += multValueMoney;
+        data.money += multValueMoney;
         TimerMultMax = new System.Random().Next(5, 10);
         timerMult = TimerMultMax;
         multValue = new System.Random().Next(20, 100);
