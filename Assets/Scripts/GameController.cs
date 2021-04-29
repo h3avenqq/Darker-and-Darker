@@ -101,14 +101,20 @@ public class GameController : MonoBehaviour
         }
     }
 
+    //Prestige
+    public Text gemsText;
+    public Text gemsToGetText;
+
+    public double gemsToGet;
+
     //BG
     public Image bgBoss;
 
     private const string dataFileName = "Darker&Darker";
     public void Start()
     {
-        data = SaveSystem.SaveExists("Darker&Darker") 
-            ? SaveSystem.LoadData<Data>("Darker&Darker") 
+        data = SaveSystem.SaveExists("Darker&Darker")
+            ? SaveSystem.LoadData<Data>("Darker&Darker")
             : new Data();
         offlineBox.gameObject.SetActive(false);
         multBox.gameObject.SetActive(false);
@@ -129,6 +135,11 @@ public class GameController : MonoBehaviour
 
     public void Update()
     {
+        gemsToGet = (150 * System.Math.Sqrt(data.money / 1e7)) + 1;
+        
+        gemsToGetText.text = "Prestige:\n+" + WordNotation(gemsToGet,"F0") + " Gems";
+        gemsText.text = "Gems: " + WordNotation(data.gems,"F0");
+        
         if (health <= 0) Kill();
         else
             health -= data.dps * Time.deltaTime;
@@ -167,6 +178,26 @@ public class GameController : MonoBehaviour
             SaveSystem.SaveData(data, dataFileName);
             saveTime = 0;
             SaveOfflineTime();
+        }
+    }
+
+    //Prestige
+    public void Prestige()
+    {
+        if(data.money > 1000)
+        {
+            data.money = 0.0;
+            data.dph = 1.1;
+            data.dps = 0.0;
+            data.stage = 1;
+            data.stageMax = 1;
+            data.kills = 0;
+            data.killsMax = 10;
+            data.isBoss = 1;
+            data.heroLevel = 0;
+            data.playerLevel = 0;
+
+            data.gems += gemsToGet;
         }
     }
 
