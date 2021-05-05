@@ -1,27 +1,28 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
 using TMPro;
+using BreakInfinity;
+using static BreakInfinity.BigDouble;
 
 public class GameController : MonoBehaviour
 {
     public Data data;
 
-    public double moneyPerSec
+    public BigDouble moneyPerSec
     {
         get
         {
-            return Math.Ceiling(healthMax / 14) / healthMax * data.dps;
+            return Ceiling(healthMax / 14) / healthMax * data.dps;
         }
     }
-    public double health;
-    public double healthMax
+    public BigDouble health;
+    public BigDouble healthMax
     {
         get
         {
-            return 10 * System.Math.Pow(2, data.stage - 1) * data.isBoss;
+            return 10 * Pow(2, data.stage - 1) * data.isBoss;
         }
     }
 
@@ -54,10 +55,10 @@ public class GameController : MonoBehaviour
 
     //Multiplier                                             
     public Text multText;
-    public double multValue;
+    public BigDouble multValue;
     public float timerMult;
     public float TimerMultMax;
-    public double multValueMoney;
+    public BigDouble multValueMoney;
     public GameObject multBox;
 
     //Username                                               
@@ -69,14 +70,14 @@ public class GameController : MonoBehaviour
     public Text heroCostText;
     public Text heroLevelText;
     public Text heroPowerText;
-    public double heroCost
+    public BigDouble heroCost
     {
         get
         {
-            return 10 * Math.Pow(1.07, data.heroLevel);
+            return 10 * Pow(1.07, data.heroLevel);
         }
     }
-    public double heroPower
+    public BigDouble heroPower
     {
         get
         {
@@ -86,14 +87,14 @@ public class GameController : MonoBehaviour
     public Text playerCostText;
     public Text playerLevelText;
     public Text playerPowerText;
-    public double playerCost
+    public BigDouble playerCost
     {
         get
         {
-            return 10 * Math.Pow(1.07, data.playerLevel);
+            return 10 * Pow(1.07, data.playerLevel);
         }
     }
-    public double playerPower
+    public BigDouble playerPower
     {
         get
         {
@@ -105,7 +106,7 @@ public class GameController : MonoBehaviour
     public Text gemsText;
     public Text gemsToGetText;
 
-    public double gemsToGet;
+    public BigDouble gemsToGet;
 
     //BG
     public Image bgBoss;
@@ -135,7 +136,7 @@ public class GameController : MonoBehaviour
 
     public void Update()
     {
-        gemsToGet = (150 * System.Math.Sqrt(data.money / 1e7)) + 1;
+        gemsToGet = (150 * Sqrt(data.money / 1e7)) + 1;
         
         gemsToGetText.text = "Prestige:\n+" + WordNotation(gemsToGet,"F0") + " Gems";
         gemsText.text = "Gems: " + WordNotation(data.gems,"F0");
@@ -158,7 +159,7 @@ public class GameController : MonoBehaviour
         killsText.text = data.kills + "/" + data.killsMax + " kills";
         healthText.text = WordNotation(health, "F2") + "/" + WordNotation(healthMax, "F2") + " HP";
 
-        healthBar.fillAmount = (float)(health / healthMax);
+        healthBar.fillAmount = (float)(health / healthMax).ToDouble();
 
         if (data.stage > 1) back.gameObject.SetActive(true);
         else
@@ -262,7 +263,7 @@ public class GameController : MonoBehaviour
 
     public void Kill()
     {
-        data.money += System.Math.Ceiling(healthMax / 14);
+        data.money += Ceiling(healthMax / 14);
         if (data.stage == data.stageMax)
         {
             data.kills += 1;
@@ -305,30 +306,32 @@ public class GameController : MonoBehaviour
         }
     }
 
-    public void UpgradeDefaults(ref int level, double cost)
+    public void UpgradeDefaults(ref int level, BigDouble cost)
     {
         data.money -= cost;
         level++;
     }
 
-    public string WordNotation(double number, string digits)
+    public static string WordNotation(BigDouble number, string digits)
     {
-        double digitsTemp = Math.Floor(Math.Log10(number));
-        IDictionary<double, string> prefixes = new Dictionary<double, string>()
+        var prefixes = new Dictionary<BigDouble, string>
         {
-            {3,"K"},
-            {6,"M"},
-            {9,"B"},
-            {12,"T"},
-            {15,"Qa"},
-            {18,"Qi"},
-            {21,"Se"},
-            {24,"Sep"}
+            {3.0,"K"},
+            {6.0,"M"},
+            {9.0,"B"},
+            {12.0,"T"},
+            {15.0,"Qa"},
+            {18.0,"Qi"},
+            {21.0,"Se"},
+            {24.0,"Sep"}
         };
-        double digitsEvery3 = 3 * Math.Floor(digitsTemp / 3);
-        if (number >= 1000)
-            return (number / Math.Pow(10, digitsEvery3)).ToString(digits) + prefixes[digitsEvery3];
-        return number.ToString(digits);
+
+        var exponent = Floor(Log10(number));
+        var thirdExponent = 3 * Floor(exponent / 3);
+        var mantissa = (number / Pow(10, thirdExponent));
+
+        if (number <= 1000) return number.ToString(digits);
+        return mantissa.ToString(digits) + prefixes[thirdExponent];
     }
 
     public void SaveOfflineTime()
@@ -348,7 +351,7 @@ public class GameController : MonoBehaviour
             TimeSpan difference = currentTime.Subtract(oldTime);
             IdleTime = (float)difference.TotalSeconds;
 
-            var moneyToEarn = Math.Ceiling(healthMax / 14) / healthMax * (data.dps / 5) * IdleTime;
+            var moneyToEarn = Ceiling(healthMax / 14) / healthMax * (data.dps / 5) * IdleTime;
             data.money += moneyToEarn;
             TimeSpan timer = TimeSpan.FromSeconds(IdleTime);
 
