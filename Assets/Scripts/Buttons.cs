@@ -18,7 +18,7 @@ public class Buttons : MonoBehaviour
     {
         switch(action){
             case "Play":
-            
+            Application.LoadLevel("level");
             break;
             case "Ads":
 
