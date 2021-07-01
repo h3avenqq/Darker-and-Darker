@@ -1,9 +1,5 @@
 fileFormatVersion: 2
-<<<<<<< HEAD:Assets/Scripts/Buttons.cs.meta
-guid: bdeb9830c558dc545ac126b8a7f43941
-=======
-guid: fc4110bf53eab244e9247c8eff3c3a69
->>>>>>> luneth:Assets/Scripts/GameController.cs.meta
+guid: 404f3ee49fd23424a93673151e18e117
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
