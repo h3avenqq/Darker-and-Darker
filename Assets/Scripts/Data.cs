@@ -4,19 +4,36 @@ using BreakInfinity;
 [Serializable]
 public class Data
 {
-        public BigDouble money = 0.0;
-        public BigDouble dph = 1.1;
-        public BigDouble dps = 0.0;
-        public BigDouble gems = 0.0;
-        public int stage = 1;
-        public int stageMax = 1;
-        public int kills = 0;
-        public int killsMax = 10;
-        public int isBoss = 1;
-        public string username = "<Username>";
-        public int heroLevel = 0;
-        public int playerLevel = 0;
-        public int OfflineProgressCheck = 1;
+        public BigDouble money;//yes
+        public BigDouble dph;//yes
+        public BigDouble dps;
+        public BigDouble gems;
+        public int stage;//yes
+        public int stageMax;//yes
+        public int kills;//yes
+        public int killsMax;//yes
+        public int isBoss;//yes
+        public string username;
+        public int heroLevel;
+        public int playerLevel;
+        public int OfflineProgressCheck;
+
+        public Data()
+        {
+                money = 0.0;//yes
+                dph = 1.0;//yes
+                dps = 0.0;
+                gems = 0.0;
+                stage = 1;//yes
+                stageMax = 5;//yes
+                kills = 0;//yes
+                killsMax = 10;//yes
+                isBoss = 1;//yes
+                username = "<Username>";
+                heroLevel = 0;
+                playerLevel = 0;
+                OfflineProgressCheck = 1;
+        }
 }
 
 

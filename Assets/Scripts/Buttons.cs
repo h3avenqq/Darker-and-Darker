@@ -18,14 +18,14 @@ public class Buttons : MonoBehaviour
     {
         switch(action){
             case "Play":
-            Application.LoadLevel("level");
-            break;
+                Application.LoadLevel("level");
+                break;
+
             case "Ads":
-
-            break;
+                break;
+            
             case "Settings":
-
-            break;
+                break;
         }
     }
 }

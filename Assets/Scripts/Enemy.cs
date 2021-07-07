@@ -8,8 +8,15 @@ using static BreakInfinity.BigDouble;
 
 public class Enemy : MonoBehaviour
 {
-    public static BigDouble health = 10;
-    public BigDouble healthMax = 10;
+    public static BigDouble health;
+    public static BigDouble healthMax
+    {
+        get
+        {
+            return 10*Pow(2,GameCtrl.data.stage-1)*GameCtrl.data.isBoss;
+        }
+    }
+
 
     public static bool a = false;
 
@@ -35,7 +42,7 @@ public class Enemy : MonoBehaviour
 
     private void OnMouseUpAsButton()
     {
-        health-=GameCtrl.dph;
+        health-=GameCtrl.data.dph;
     }
 
     private void Kill()
@@ -43,8 +50,4 @@ public class Enemy : MonoBehaviour
         Destroy(this.gameObject);
     }
 
-    public static void wtf()
-    {
-        a = true;
-    }
 }
