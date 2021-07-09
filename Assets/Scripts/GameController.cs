@@ -111,6 +111,7 @@ public class GameController : MonoBehaviour
     //BG
     public Image bgBoss;
 
+
     private const string dataFileName = "Darker&Darker";
     public void Start()
     {
@@ -198,6 +199,8 @@ public class GameController : MonoBehaviour
             data.heroLevel = 0;
             data.playerLevel = 0;
             health = 10.0;
+            data.CriticalDamage = 1.5;
+            data.CriticalChance = 1.0;
 
             data.gems += gemsToGet;
         }
@@ -255,7 +258,15 @@ public class GameController : MonoBehaviour
 
     public void Hit()
     {
-        health -= data.dph;
+        int CriticalCheck = new System.Random().Next(0, 100);
+        if (CriticalCheck > (100 - data.CriticalChance))
+        {
+            health -= data.CriticalDamage * data.dph;
+        }
+        else
+        {
+            health -= data.dph;
+        }
         if (health <= 0)
         {
             Kill();

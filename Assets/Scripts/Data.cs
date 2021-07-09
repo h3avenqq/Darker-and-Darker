@@ -5,7 +5,7 @@ using BreakInfinity;
 public class Data
 {
         public BigDouble money = 0.0;
-        public BigDouble dph = 1.1;
+        public BigDouble dph = 1.0;
         public BigDouble dps = 0.0;
         public BigDouble gems = 0.0;
         public int stage = 1;
@@ -17,6 +17,9 @@ public class Data
         public int heroLevel = 0;
         public int playerLevel = 0;
         public int OfflineProgressCheck = 1;
+        //Crits
+        public double CriticalDamage = 1.5;
+        public double CriticalChance = 1.0;
 }
 
 
