@@ -12,20 +12,19 @@ public class GameCtrl : MonoBehaviour
 
     public int i;
 
-    // public BigDouble moneyPerSec
-    // {
-    //     get
-    //     {
-    //         return Ceiling(Enemy.healthMax / 14) / Enemy.healthMax * data.dph;
-    //     }
-    // }
+    public BigDouble moneyPerSec
+    {
+        get
+        {
+            return Ceiling(Enemy.healthMax / 14) / Enemy.healthMax * data.dps;
+        }
+    }
     
     public float timer;
     public float timerMax = 30;
 
     public Text killsText;
     public Text stageText;
-    public Text dphText;
     public Text moneyText;
     public Text timerText;
     public Text usernameText;
@@ -55,11 +54,11 @@ public class GameCtrl : MonoBehaviour
             }
             Spawn();
         }
+        else Enemy.health -= data.dps * Time.deltaTime;
 
         killsText.text = "Kills: " + data.kills + "/" + data.killsMax;
         stageText.text = "Stage: " + data.stage;
-        moneyText.text = "Gold: " + data.money;
-        dphText.text = "DPH: " + data.dph;
+        moneyText.text = "Gold: " + WordNotation(data.money, "F2");
         usernameText.text = data.username;
         IsBossChecker();
     }
@@ -121,6 +120,27 @@ public class GameCtrl : MonoBehaviour
         data.stage++;
     }
 
+    public static string WordNotation(BigDouble number, string digits)
+    {
+        var prefixes = new Dictionary<BigDouble, string>
+        {
+            {3.0,"K"},
+            {6.0,"M"},
+            {9.0,"B"},
+            {12.0,"T"},
+            {15.0,"Qa"},
+            {18.0,"Qi"},
+            {21.0,"Se"},
+            {24.0,"Sep"}
+        };
+
+        var exponent = Floor(Log10(number));
+        var thirdExponent = 3 * Floor(exponent / 3);
+        var mantissa = (number / Pow(10, thirdExponent));
+
+        if (number <= 1000) return number.ToString(digits);
+        return mantissa.ToString(digits) + prefixes[thirdExponent];
+    }
 }
 
     

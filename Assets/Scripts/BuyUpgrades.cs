@@ -11,6 +11,7 @@ public class BuyUpgrades : MonoBehaviour
     public Text PowerText;
     public Text LevelText;
     public Text CostText;
+    public Text dphText;
 
     public string id;
 
@@ -32,14 +33,42 @@ public class BuyUpgrades : MonoBehaviour
     {
         get
         {
-            return 10 * Pow(1.07, GameCtrl.data.heroLevel);
+            switch (id)
+            {
+            case "hero1":
+                return 10 * Pow(1.07, GameCtrl.data.heroLevel1);
+                break;
+            case "hero2":
+                return 10 * Pow(1.07, GameCtrl.data.heroLevel2);
+                break;
+            case "hero3":
+                return 10 * Pow(1.07, GameCtrl.data.heroLevel3);
+                break;
+            default:
+                return 0;
+                break;
+            }
         }
     }
     public BigDouble heroPower
     {
         get
         {
-            return 5 * GameCtrl.data.heroLevel;
+            switch (id)
+            {
+            case "hero1":
+                return 5 * GameCtrl.data.heroLevel1;
+                break;
+            case "hero2":
+                return 5 * GameCtrl.data.heroLevel2;
+                break;
+            case "hero3":
+                return 5 * GameCtrl.data.heroLevel3;
+                break;
+            default:
+                return 0;
+                break;
+            }
         }
     }
 
@@ -48,15 +77,40 @@ public class BuyUpgrades : MonoBehaviour
         Upgrades();
     }
 
+    public BigDouble getHeroPower(string id)
+    {
+        switch (id)
+            {
+            case "hero1":
+                return 5 * GameCtrl.data.heroLevel1;
+                break;
+            case "hero2":
+                return 5 * GameCtrl.data.heroLevel2;
+                break;
+            case "hero3":
+                return 5 * GameCtrl.data.heroLevel3;
+                break;
+            default:
+                return 0;
+                break;
+            }
+    }
+
     public void OnMouseUpAsButton()
     {
         switch (id)
         {
-            case "hero1":
-                if (GameCtrl.data.money >= heroCost) UpgradeDefaults(ref GameCtrl.data.heroLevel, heroCost);
-                break;
             case "player1":
                 if (GameCtrl.data.money >= playerCost) UpgradeDefaults(ref GameCtrl.data.playerLevel, playerCost);
+                break;
+            case "hero1":
+                if (GameCtrl.data.money >= heroCost) UpgradeDefaults(ref GameCtrl.data.heroLevel1, heroCost);
+                break;
+            case "hero2":
+                if (GameCtrl.data.money >= heroCost) UpgradeDefaults(ref GameCtrl.data.heroLevel2, heroCost);
+                break;
+            case "hero3":
+                if (GameCtrl.data.money >= heroCost) UpgradeDefaults(ref GameCtrl.data.heroLevel3, heroCost);
                 break;
         }
     }
@@ -68,16 +122,30 @@ public class BuyUpgrades : MonoBehaviour
             case "player1":
                 CostText.text = WordNotation(playerCost, "F2") + " coins";
                 LevelText.text = "Level: " + GameCtrl.data.playerLevel;
-                PowerText.text = "+" + 2 * (GameCtrl.data.playerLevel+1) + " per hit";
+                PowerText.text = 2 * (GameCtrl.data.playerLevel+1) + " per hit";//тут и в других свитчах убран плюс сколько урона получишь 
+                dphText.text = "DPH: " + WordNotation(GameCtrl.data.dph, "F2");//за апгрейд тк не правильно выводило. позже надо сделать.
                 break;
             case "hero1":
                 CostText.text = WordNotation(heroCost, "F2") + " coins";
-                LevelText.text = "Level: " + GameCtrl.data.heroLevel;
-                PowerText.text = "+" + 2 * (GameCtrl.data.heroLevel+1) + " per sec";
+                LevelText.text = "Level: " + GameCtrl.data.heroLevel1;
+                PowerText.text = 5 * (GameCtrl.data.heroLevel1+1) + " per hit";
+                dphText.text = "DPH: " + WordNotation(heroPower, "F2");
+                break;
+            case "hero2":
+                CostText.text = WordNotation(heroCost, "F2") + " coins";
+                LevelText.text = "Level: " + GameCtrl.data.heroLevel2;
+                PowerText.text = 5 * (GameCtrl.data.heroLevel2+1) + " per hit";
+                dphText.text = "DPH: " + WordNotation(heroPower, "F2");
+                break;
+            case "hero3":
+                CostText.text = WordNotation(heroCost, "F2") + " coins";
+                LevelText.text = "Level: " + GameCtrl.data.heroLevel3;
+                PowerText.text = 5 * (GameCtrl.data.heroLevel3+1) + " per hit";
+                dphText.text = "DPH: " + WordNotation(heroPower, "F2");
                 break;
         }
-        GameCtrl.data.dps = heroPower;
         GameCtrl.data.dph = 1 + playerPower;
+        GameCtrl.data.dps = getHeroPower("hero1")+getHeroPower("hero2")+getHeroPower("hero3");
     }
 
     public static string WordNotation(BigDouble number, string digits)
@@ -106,5 +174,6 @@ public class BuyUpgrades : MonoBehaviour
     {
         GameCtrl.data.money -= cost;
         level++;
+        //GameCtrl.data.dps+=5;
     }
 }
