@@ -197,6 +197,7 @@ public class GameController : MonoBehaviour
             data.isBoss = 1;
             data.heroLevel = 0;
             data.playerLevel = 0;
+            health = 10.0;
 
             data.gems += gemsToGet;
         }
@@ -323,7 +324,19 @@ public class GameController : MonoBehaviour
             {15.0,"Qa"},
             {18.0,"Qi"},
             {21.0,"Se"},
-            {24.0,"Sep"}
+            {24.0,"Sep"},
+            {27.0,"Oct"},
+            {30.0,"Non"},
+            {33.0,"Dec"},
+            {36.0,"Und"},
+            {39.0,"Duo"},
+            {42.0,"Tre"},
+            {45.0,"Qua"},
+            {48.0,"Qui"},
+            {51.0,"Sex"},
+            {54.0,"Sept"},
+            {57.0,"Octo"},
+            {60.0,"Nov"},
         };
 
         var exponent = Floor(Log10(number));
@@ -372,4 +385,14 @@ public class GameController : MonoBehaviour
         timerMult = TimerMultMax;
         multValue = new System.Random().Next(20, 100);
     }
+
+    //CHEAT*************************************
+    public GameObject CheatDebuggingButton;
+
+    public void Cheat()
+    {
+        data.money += Pow(10.0, 60.0);
+        data.gems += Pow(10.0, 60.0);
+    }
 }
+
