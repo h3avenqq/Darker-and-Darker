@@ -197,6 +197,7 @@ public class GameController : MonoBehaviour
             data.isBoss = 1;
             data.heroLevel = 0;
             data.playerLevel = 0;
+            health = 10.0;
 
             data.gems += gemsToGet;
         }
