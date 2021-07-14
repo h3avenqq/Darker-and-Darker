@@ -137,7 +137,7 @@ public class GameController : MonoBehaviour
 
     public void Update()
     {
-        gemsToGet = (150 * Sqrt(data.money / 1e7)) + 1;
+        gemsToGet = Floor(150 * Sqrt(data.money / 1e7) + 1);
         
         gemsToGetText.text = "Prestige:\n+" + WordNotation(gemsToGet,"F0") + " Gems";
         gemsText.text = "Gems: " + WordNotation(data.gems,"F0");
