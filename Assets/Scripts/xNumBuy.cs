@@ -23,18 +23,30 @@ public class xNumBuy : MonoBehaviour
             case "x1":
                 Switcher(id);
                 xButton = 1;
+                xButtonHero1 = 1;
+                xButtonHero2 = 1;
+                xButtonHero3 = 1;
                 break;
             case "x10":
                 Switcher(id);
                 xButton = 10;
+                xButtonHero1 = 10;
+                xButtonHero2 = 10;
+                xButtonHero3 = 10;
                 break;
             case "x100":
                 Switcher(id);
                 xButton = 100;
+                xButtonHero1 = 100;
+                xButtonHero2 = 100;
+                xButtonHero3 = 100;
                 break;
             case "Max":
                 Switcher(id);
                 xButton = -1;
+                xButtonHero1 = -1;
+                xButtonHero2 = -1;
+                xButtonHero3 = -1;
                 break;
         }
     }

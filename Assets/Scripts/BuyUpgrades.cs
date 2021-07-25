@@ -61,23 +61,68 @@ public class BuyUpgrades : MonoBehaviour
             switch (id)
             {
             case "hero1": 
-                for(int i = 1;i<=xNumBuy.xButton;i++)
+                if(xNumBuy.xButtonHero1==-1)
                 {
-                    x+=10 * Pow(1.07, GameCtrl.data.heroLevel1+i);
+                    xNumBuy.xButtonHero1=1;
+                    x+=10 * Pow(1.07, GameCtrl.data.heroLevel1+xNumBuy.xButtonHero1);
+                    currentMoney-=x;
+                    while(currentMoney-10 * Pow(1.07, GameCtrl.data.heroLevel1+xNumBuy.xButtonHero1+1)>=0)
+                    {
+                        xNumBuy.xButtonHero1++;
+                        currentMoney-=10 * Pow(1.07, GameCtrl.data.heroLevel1+xNumBuy.xButtonHero1);
+                        x+=10 * Pow(1.07, GameCtrl.data.heroLevel1+1);
+                    }
+                }
+                else
+                {
+                    for(int i = 1;i<=xNumBuy.xButtonHero1;i++)
+                    {
+                        x+=10 * Pow(1.07, GameCtrl.data.heroLevel1+i);
+                    }
                 }
                 return x;
                 break;
             case "hero2":
-                    for(int i = 1;i<=xNumBuy.xButton;i++)
+                if(xNumBuy.xButtonHero2==-1)
+                {
+                    xNumBuy.xButtonHero2=1;
+                    x+=10 * Pow(1.07, GameCtrl.data.heroLevel2+xNumBuy.xButtonHero2);
+                    currentMoney-=x;
+                    while(currentMoney-10 * Pow(1.07, GameCtrl.data.heroLevel2+xNumBuy.xButtonHero2+1)>=0)
+                    {
+                        xNumBuy.xButtonHero2++;
+                        currentMoney-=10 * Pow(1.07, GameCtrl.data.heroLevel2+xNumBuy.xButtonHero2);
+                        x+=10 * Pow(1.07, GameCtrl.data.heroLevel2+1);
+                    }
+                }
+                else
+                {
+                    for(int i = 1;i<=xNumBuy.xButtonHero2;i++)
                     {
                         x+=10 * Pow(1.07, GameCtrl.data.heroLevel2+i);
                     }
+                }
                 return x;
                 break;
             case "hero3":
-                for(int i = 1;i<=xNumBuy.xButton;i++)
+                if(xNumBuy.xButtonHero3==-1)
                 {
-                    x+=10 * Pow(1.07, GameCtrl.data.heroLevel3+i);
+                    xNumBuy.xButtonHero3=1;
+                    x+=10 * Pow(1.07, GameCtrl.data.heroLevel3+xNumBuy.xButtonHero3);
+                    currentMoney-=x;
+                    while(currentMoney-10 * Pow(1.07, GameCtrl.data.heroLevel3+xNumBuy.xButtonHero3+1)>=0)
+                    {
+                        xNumBuy.xButtonHero3++;
+                        currentMoney-=10 * Pow(1.07, GameCtrl.data.heroLevel3+xNumBuy.xButtonHero3);
+                        x+=10 * Pow(1.07, GameCtrl.data.heroLevel3+1);
+                    }
+                }
+                else
+                {
+                    for(int i = 1;i<=xNumBuy.xButtonHero3;i++)
+                    {
+                        x+=10 * Pow(1.07, GameCtrl.data.heroLevel3+i);
+                    }
                 }
                 return x;
                 break;
@@ -150,16 +195,16 @@ public class BuyUpgrades : MonoBehaviour
         switch (id)
         {
             case "player1":
-                if (GameCtrl.data.money >= playerCost) UpgradeDefaults(ref GameCtrl.data.playerLevel, playerCost);
+                if (GameCtrl.data.money >= playerCost) UpgradeDefaults(ref GameCtrl.data.playerLevel, playerCost, xNumBuy.xButton);
                 break;
             case "hero1":
-                if (GameCtrl.data.money >= heroCost) UpgradeDefaults(ref GameCtrl.data.heroLevel1, heroCost);
+                if (GameCtrl.data.money >= heroCost) UpgradeDefaults(ref GameCtrl.data.heroLevel1, heroCost, xNumBuy.xButtonHero1);
                 break;
             case "hero2":
-                if (GameCtrl.data.money >= heroCost) UpgradeDefaults(ref GameCtrl.data.heroLevel2, heroCost);
+                if (GameCtrl.data.money >= heroCost) UpgradeDefaults(ref GameCtrl.data.heroLevel2, heroCost, xNumBuy.xButtonHero2);
                 break;
             case "hero3":
-                if (GameCtrl.data.money >= heroCost) UpgradeDefaults(ref GameCtrl.data.heroLevel3, heroCost);
+                if (GameCtrl.data.money >= heroCost) UpgradeDefaults(ref GameCtrl.data.heroLevel3, heroCost, xNumBuy.xButtonHero3);
                 break;
         }
     }
@@ -177,19 +222,19 @@ public class BuyUpgrades : MonoBehaviour
             case "hero1":
                 CostText.text = WordNotation(heroCost, "F2") + " coins";
                 LevelText.text = "Level: " + GameCtrl.data.heroLevel1;
-                PowerText.text = 5 * (GameCtrl.data.heroLevel1+xNumBuy.xButton) + " per hit";
+                PowerText.text = 5 * (GameCtrl.data.heroLevel1+xNumBuy.xButtonHero1) + " per hit";
                 dphText.text = "DPH: " + WordNotation(heroPower, "F2");
                 break;
             case "hero2":
                 CostText.text = WordNotation(heroCost, "F2") + " coins";
                 LevelText.text = "Level: " + GameCtrl.data.heroLevel2;
-                PowerText.text = 5 * (GameCtrl.data.heroLevel2+xNumBuy.xButton) + " per hit";
+                PowerText.text = 5 * (GameCtrl.data.heroLevel2+xNumBuy.xButtonHero2) + " per hit";
                 dphText.text = "DPH: " + WordNotation(heroPower, "F2");
                 break;
             case "hero3":
                 CostText.text = WordNotation(heroCost, "F2") + " coins";
                 LevelText.text = "Level: " + GameCtrl.data.heroLevel3;
-                PowerText.text = 5 * (GameCtrl.data.heroLevel3+xNumBuy.xButton) + " per hit";
+                PowerText.text = 5 * (GameCtrl.data.heroLevel3+xNumBuy.xButtonHero3) + " per hit";
                 dphText.text = "DPH: " + WordNotation(heroPower, "F2");
                 break;
         }
@@ -219,10 +264,10 @@ public class BuyUpgrades : MonoBehaviour
         return mantissa.ToString(digits) + prefixes[thirdExponent];
     }
 
-    public void UpgradeDefaults(ref int level, BigDouble cost)
+    public void UpgradeDefaults(ref int level, BigDouble cost, int amount)
     {
         GameCtrl.data.money -= cost;
-        level+=xNumBuy.xButton;
+        level+=amount;
         if(xNumBuy.xMax)
         {
             xNumBuy.Switcher("x1");
