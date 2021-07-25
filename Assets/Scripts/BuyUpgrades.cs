@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-//using System;
+using System.Collections;
 using TMPro;
 using BreakInfinity;
 using static BreakInfinity.BigDouble;
@@ -13,13 +13,37 @@ public class BuyUpgrades : MonoBehaviour
     public Text CostText;
     public Text dphText;
 
+    public Sprite layer_off;
+    public Sprite layer_on;
+
     public string id;
 
+    public BigDouble currentMoney;
     public BigDouble playerCost
     {
         get
         {
-            return 10 * Pow(1.07, GameCtrl.data.playerLevel);
+            BigDouble x = 0;
+            if(xNumBuy.xButton==-1)
+            {
+                xNumBuy.xButton=1;
+                x+=10 * Pow(1.07, GameCtrl.data.playerLevel+xNumBuy.xButton);
+                currentMoney-=x;
+                while(currentMoney-10 * Pow(1.07, GameCtrl.data.playerLevel+xNumBuy.xButton+1)>=0)
+                {
+                    xNumBuy.xButton++;
+                    currentMoney-=10 * Pow(1.07, GameCtrl.data.playerLevel+xNumBuy.xButton);
+                    x+=10 * Pow(1.07, GameCtrl.data.playerLevel+1);
+                }
+            }
+            else
+            {
+                for(int i = 1;i<=xNumBuy.xButton;i++)
+                {
+                    x+=10 * Pow(1.07, GameCtrl.data.playerLevel+i);
+                }
+            }
+            return x;
         }
     }
     public BigDouble playerPower
@@ -33,16 +57,29 @@ public class BuyUpgrades : MonoBehaviour
     {
         get
         {
+            BigDouble x = 0;
             switch (id)
             {
-            case "hero1":
-                return 10 * Pow(1.07, GameCtrl.data.heroLevel1);
+            case "hero1": 
+                for(int i = 1;i<=xNumBuy.xButton;i++)
+                {
+                    x+=10 * Pow(1.07, GameCtrl.data.heroLevel1+i);
+                }
+                return x;
                 break;
             case "hero2":
-                return 10 * Pow(1.07, GameCtrl.data.heroLevel2);
+                    for(int i = 1;i<=xNumBuy.xButton;i++)
+                    {
+                        x+=10 * Pow(1.07, GameCtrl.data.heroLevel2+i);
+                    }
+                return x;
                 break;
             case "hero3":
-                return 10 * Pow(1.07, GameCtrl.data.heroLevel3);
+                for(int i = 1;i<=xNumBuy.xButton;i++)
+                {
+                    x+=10 * Pow(1.07, GameCtrl.data.heroLevel3+i);
+                }
+                return x;
                 break;
             default:
                 return 0;
@@ -74,7 +111,19 @@ public class BuyUpgrades : MonoBehaviour
 
     public void Update()
     {
+        currentMoney = GameCtrl.data.money;
         Upgrades();
+        switch (id)
+        {
+            case "player1":
+                if (GameCtrl.data.money >= playerCost) GetComponent<SpriteRenderer>().sprite = layer_on;
+                else GetComponent<SpriteRenderer>().sprite = layer_off;
+                break;
+            default:
+                if (GameCtrl.data.money >= heroCost) GetComponent<SpriteRenderer>().sprite = layer_on;
+                else GetComponent<SpriteRenderer>().sprite = layer_off;
+                break;
+        }
     }
 
     public BigDouble getHeroPower(string id)
@@ -122,25 +171,25 @@ public class BuyUpgrades : MonoBehaviour
             case "player1":
                 CostText.text = WordNotation(playerCost, "F2") + " coins";
                 LevelText.text = "Level: " + GameCtrl.data.playerLevel;
-                PowerText.text = 2 * (GameCtrl.data.playerLevel+1) + " per hit";//тут и в других свитчах убран плюс сколько урона получишь 
+                PowerText.text = 2 * (GameCtrl.data.playerLevel+xNumBuy.xButton)+1 + " per hit";//тут и в других свитчах убран плюс сколько урона получишь 
                 dphText.text = "DPH: " + WordNotation(GameCtrl.data.dph, "F2");//за апгрейд тк не правильно выводило. позже надо сделать.
                 break;
             case "hero1":
                 CostText.text = WordNotation(heroCost, "F2") + " coins";
                 LevelText.text = "Level: " + GameCtrl.data.heroLevel1;
-                PowerText.text = 5 * (GameCtrl.data.heroLevel1+1) + " per hit";
+                PowerText.text = 5 * (GameCtrl.data.heroLevel1+xNumBuy.xButton) + " per hit";
                 dphText.text = "DPH: " + WordNotation(heroPower, "F2");
                 break;
             case "hero2":
                 CostText.text = WordNotation(heroCost, "F2") + " coins";
                 LevelText.text = "Level: " + GameCtrl.data.heroLevel2;
-                PowerText.text = 5 * (GameCtrl.data.heroLevel2+1) + " per hit";
+                PowerText.text = 5 * (GameCtrl.data.heroLevel2+xNumBuy.xButton) + " per hit";
                 dphText.text = "DPH: " + WordNotation(heroPower, "F2");
                 break;
             case "hero3":
                 CostText.text = WordNotation(heroCost, "F2") + " coins";
                 LevelText.text = "Level: " + GameCtrl.data.heroLevel3;
-                PowerText.text = 5 * (GameCtrl.data.heroLevel3+1) + " per hit";
+                PowerText.text = 5 * (GameCtrl.data.heroLevel3+xNumBuy.xButton) + " per hit";
                 dphText.text = "DPH: " + WordNotation(heroPower, "F2");
                 break;
         }
@@ -173,7 +222,11 @@ public class BuyUpgrades : MonoBehaviour
     public void UpgradeDefaults(ref int level, BigDouble cost)
     {
         GameCtrl.data.money -= cost;
-        level++;
-        //GameCtrl.data.dps+=5;
+        level+=xNumBuy.xButton;
+        if(xNumBuy.xMax)
+        {
+            xNumBuy.Switcher("x1");
+            xNumBuy.xButton=1;
+        }
     }
 }

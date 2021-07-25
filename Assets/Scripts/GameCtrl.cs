@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-//using System;
+using System.Collections;
 using TMPro;
 using BreakInfinity;
 using static BreakInfinity.BigDouble;
@@ -37,7 +37,7 @@ public class GameCtrl : MonoBehaviour
 
     public void Start()
     {
-        
+        StartCoroutine("DpsDealer");
     }
     
     public void Update()
@@ -54,13 +54,19 @@ public class GameCtrl : MonoBehaviour
             }
             Spawn();
         }
-        else Enemy.health -= data.dps * Time.deltaTime;
 
         killsText.text = "Kills: " + data.kills + "/" + data.killsMax;
         stageText.text = "Stage: " + data.stage;
         moneyText.text = "Gold: " + WordNotation(data.money, "F2");
         usernameText.text = data.username;
         IsBossChecker();
+    }
+
+    IEnumerator DpsDealer() {
+        for(;;) {
+            Enemy.health -= data.dps;
+            yield return new WaitForSeconds(1);
+        }
     }
 
     public void Spawn()
