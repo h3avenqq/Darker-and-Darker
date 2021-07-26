@@ -19,6 +19,9 @@ public class Data
         public int heroLevel3;
         public int playerLevel;
         public int OfflineProgressCheck;
+        //Crits
+        public double CriticalDamage;
+        public double CriticalChance;
 
         public Data()
         {
@@ -37,6 +40,8 @@ public class Data
                 heroLevel3 = 0;
                 playerLevel = 0;
                 OfflineProgressCheck = 1;
+                CriticalDamage = 1.5;
+                CriticalChance = 1.0;
         }
 }
 

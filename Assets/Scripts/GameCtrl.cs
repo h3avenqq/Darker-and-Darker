@@ -11,7 +11,8 @@ public class GameCtrl : MonoBehaviour
     public static Data data = new Data();
 
     public int i;
-
+    
+    public BigDouble gemsToGet;
     public BigDouble moneyPerSec
     {
         get
@@ -28,7 +29,9 @@ public class GameCtrl : MonoBehaviour
     public Text moneyText;
     public Text timerText;
     public Text usernameText;
-
+    public Text gemsText;
+    public Text gemsToGetText;
+    
     public Image timerBar;
 
 
