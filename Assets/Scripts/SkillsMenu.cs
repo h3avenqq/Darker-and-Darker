@@ -2,13 +2,10 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
-using TMPro;
 using BreakInfinity;
-using Unity.VisualScripting;
 using static BreakInfinity.BigDouble;
 
-public class Skills : MonoBehaviour
+public class SkillsMenu : MonoBehaviour
 {
     public BigDouble gemsToGet;
     public BigDouble prestigeCost = 1000;
