@@ -12,7 +12,6 @@ public class GameCtrl : MonoBehaviour
 
     public int i;
     
-    public BigDouble gemsToGet;
     public BigDouble moneyPerSec
     {
         get
@@ -29,9 +28,7 @@ public class GameCtrl : MonoBehaviour
     public Text moneyText;
     public Text timerText;
     public Text usernameText;
-    public Text gemsText;
-    public Text gemsToGetText;
-    
+
     public Image timerBar;
 
 
@@ -45,16 +42,17 @@ public class GameCtrl : MonoBehaviour
     
     public void Update()
     {
-        if(Enemy.health <=0)
+        if (Enemy.health <= 0)
         {
             Kill();
             data.money += Ceiling(Enemy.healthMax / 14);
             data.kills++;
-            if(data.kills>=data.killsMax)
+            if (data.kills >= data.killsMax)
             {
                 data.kills = 0;
                 data.stage++;
             }
+
             Spawn();
         }
 
@@ -116,9 +114,7 @@ public class GameCtrl : MonoBehaviour
     {
         Enemy.a = true;
     }
-
-
-
+    
     public void Back()
     {
         data.stage--;
@@ -162,6 +158,7 @@ public class GameCtrl : MonoBehaviour
         if (number <= 1000) return number.ToString(digits);
         return mantissa.ToString(digits) + prefixes[thirdExponent];
     }
+
 }
 
     

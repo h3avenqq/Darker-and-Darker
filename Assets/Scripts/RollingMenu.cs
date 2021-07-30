@@ -4,16 +4,42 @@ using UnityEngine;
 
 public class RollingMenu : MonoBehaviour
 {
+    public string id;
     public float speed;
     public GameObject rollingMenu;
     public Vector3 target;//-3.012618
     public Vector3 start;//-7.9653
-    
-    private bool pos = false;
+
+    private bool pos
+    {
+        get
+        {
+            switch (id)
+            {
+                case "sword":
+                    return MenuPosition.pos1;
+                    break;
+                case "book":
+                    return MenuPosition.pos2;
+                    break;
+                case "dick":
+                    return MenuPosition.pos3;
+                default:
+                    return false;
+            }
+        }
+    }
 
     public void OnMouseUpAsButton()
     {
-        pos=!pos;
+        if (!pos)
+        {
+            MenuPosition.Switcher(id);
+        }
+        else
+        {
+            MenuPosition.Switcher("false");
+        }
     }
 
     public void Update()

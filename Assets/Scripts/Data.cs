@@ -25,7 +25,7 @@ public class Data
 
         public Data()
         {
-                money = 1000.0;
+                money = 1001.0;
                 dph = 1.0;
                 dps = 0.0;
                 gems = 0.0;
