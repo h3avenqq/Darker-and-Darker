@@ -1,14 +1,14 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Skill : MonoBehaviour
 {
     public string id;
+
+    public Sprite layerOn;
+    public Sprite layerPathOn;
     
     public GameObject previousSkill;
+    public GameObject pathObject;
 
     public bool activated;
     public bool isFirst = false;
@@ -18,16 +18,14 @@ public class Skill : MonoBehaviour
         if (isFirst)
         {
             activated = true;
-            Debug.Log(id + " activated");
+            GetComponent<SpriteRenderer>().sprite = layerOn;
         }
-        else if (previousSkill.GetComponent<Skill>().activated)
+        else if (previousSkill.GetComponent<Skill>().activated && !activated)
         {
             activated = true;
-            Debug.Log(id + " activated");
-        }
-        else
-        {
-            Debug.Log(previousSkill.name + " not activated");
+            GetComponent<SkillList>().SkillProperty();
+            GetComponent<SpriteRenderer>().sprite = layerOn;
+            pathObject.GetComponent<SpriteRenderer>().sprite = layerPathOn;
         }
     }
 }

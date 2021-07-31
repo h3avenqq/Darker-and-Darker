@@ -41,7 +41,7 @@ public class Data
                 playerLevel = 0;
                 OfflineProgressCheck = 1;
                 CriticalDamage = 1.5;
-                CriticalChance = 1.0;
+                CriticalChance = 0;
         }
 }
 
