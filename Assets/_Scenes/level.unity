@@ -763,7 +763,6 @@ GameObject:
   - component: {fileID: 199157983}
   - component: {fileID: 199157982}
   - component: {fileID: 199157985}
-  - component: {fileID: 199157986}
   m_Layer: 0
   m_Name: 0 skill
   m_TagString: Untagged
@@ -784,11 +783,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 0
+  skillCost:
+    mantissa: 0
+    exponent: 0
   layerOn: {fileID: 21300000, guid: 0530f2ff7039f444f98d3ea91e023dae, type: 3}
   layerPathOn: {fileID: 0}
   previousSkill: {fileID: 199157981}
   pathObject: {fileID: 0}
+  buyButton: {fileID: 584694916}
+  costText: {fileID: 345039796}
   activated: 0
+  isSelected: 0
   isFirst: 1
 --- !u!212 &199157983
 SpriteRenderer:
@@ -882,19 +887,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.64, y: 0.64}
   m_EdgeRadius: 0
---- !u!114 &199157986
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 199157981}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 11486976ded4c9944aa49d051b4c3d00, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  id: 
 --- !u!1 &215251691
 GameObject:
   m_ObjectHideFlags: 0
@@ -1431,7 +1423,6 @@ GameObject:
   - component: {fileID: 292311560}
   - component: {fileID: 292311559}
   - component: {fileID: 292311558}
-  - component: {fileID: 292311561}
   m_Layer: 0
   m_Name: '32 skill '
   m_TagString: Untagged
@@ -1493,11 +1484,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 32
+  skillCost:
+    mantissa: 0
+    exponent: 0
   layerOn: {fileID: 21300000, guid: 0530f2ff7039f444f98d3ea91e023dae, type: 3}
   layerPathOn: {fileID: 21300000, guid: fe457038c5562554da97924503023bee, type: 3}
   previousSkill: {fileID: 2052636604}
   pathObject: {fileID: 1469765610}
+  buyButton: {fileID: 584694916}
+  costText: {fileID: 345039796}
   activated: 0
+  isSelected: 0
   isFirst: 0
 --- !u!212 &292311560
 SpriteRenderer:
@@ -1551,19 +1548,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &292311561
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 292311556}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 11486976ded4c9944aa49d051b4c3d00, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  id: 
 --- !u!1 &293271863
 GameObject:
   m_ObjectHideFlags: 0
@@ -1730,6 +1714,85 @@ MonoBehaviour:
   - {fileID: 3661926380424014188, guid: a7fd1a48927abdb4da1e6980f8541d28, type: 3}
   boss:
   - {fileID: 174068248167621283, guid: 1359098fe91a4ab48bdea22de5be3683, type: 3}
+--- !u!1 &345039795
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 345039798}
+  - component: {fileID: 345039797}
+  - component: {fileID: 345039796}
+  m_Layer: 5
+  m_Name: skillCost
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &345039796
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 345039795}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.86274517, g: 0.86274517, b: 0.86274517, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: 585188cdc4600544eb408bee749e4b3a, type: 3}
+    m_FontSize: 14
+    m_FontStyle: 0
+    m_BestFit: 1
+    m_MinSize: 2
+    m_MaxSize: 40
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: skill cost
+--- !u!222 &345039797
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 345039795}
+  m_CullTransparentMesh: 1
+--- !u!224 &345039798
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 345039795}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -1}
+  m_LocalScale: {x: 0.0133493515, y: 0.010869565, z: 0.015898254}
+  m_Children: []
+  m_Father: {fileID: 637489182}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 1.6008998, y: -2.1077}
+  m_SizeDelta: {x: 60.3008, y: 21.6916}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &367805873
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2427,7 +2490,6 @@ GameObject:
   - component: {fileID: 498734771}
   - component: {fileID: 498734770}
   - component: {fileID: 498734769}
-  - component: {fileID: 498734772}
   m_Layer: 0
   m_Name: 13 skill
   m_TagString: Untagged
@@ -2489,11 +2551,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 13
+  skillCost:
+    mantissa: 0
+    exponent: 0
   layerOn: {fileID: 21300000, guid: 0530f2ff7039f444f98d3ea91e023dae, type: 3}
   layerPathOn: {fileID: 21300000, guid: fe457038c5562554da97924503023bee, type: 3}
   previousSkill: {fileID: 2041977033}
   pathObject: {fileID: 1719552986}
+  buyButton: {fileID: 584694916}
+  costText: {fileID: 345039796}
   activated: 0
+  isSelected: 0
   isFirst: 0
 --- !u!212 &498734771
 SpriteRenderer:
@@ -2547,19 +2615,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &498734772
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 498734767}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 11486976ded4c9944aa49d051b4c3d00, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  id: 
 --- !u!1 &554166475
 GameObject:
   m_ObjectHideFlags: 0
@@ -2639,6 +2694,130 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 554166475}
   m_CullTransparentMesh: 1
+--- !u!1 &584694916
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 584694917}
+  - component: {fileID: 584694919}
+  - component: {fileID: 584694918}
+  - component: {fileID: 584694920}
+  m_Layer: 0
+  m_Name: buy button
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &584694917
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 584694916}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1.6041, y: -2.1731, z: 0}
+  m_LocalScale: {x: 0.33654106, y: 0.33516178, z: 0.4455}
+  m_Children: []
+  m_Father: {fileID: 2076321665}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &584694918
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 584694916}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d09447838a764df42945d1ad49bb679b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 
+--- !u!212 &584694919
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 584694916}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 3
+  m_Sprite: {fileID: 21300000, guid: aed8b15a3e4aa4044b8eb142e3399e46, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 2.56, y: 1.28}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!61 &584694920
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 584694916}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 2.56, y: 1.28}
+    newSize: {x: 2.56, y: 1.28}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 2.56, y: 1.28}
+  m_EdgeRadius: 0
 --- !u!1 &624317647
 GameObject:
   m_ObjectHideFlags: 0
@@ -2776,6 +2955,7 @@ RectTransform:
   - {fileID: 2115726438}
   - {fileID: 397172593}
   - {fileID: 1419697706}
+  - {fileID: 345039798}
   m_Father: {fileID: 2076321665}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3781,7 +3961,7 @@ Transform:
   - {fileID: 292311557}
   - {fileID: 1741167086}
   m_Father: {fileID: 2076321665}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1011230222
 GameObject:
@@ -3941,6 +4121,49 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1054503566}
   m_CullTransparentMesh: 1
+--- !u!1 &1082521561
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1082521562}
+  - component: {fileID: 1082521563}
+  m_Layer: 0
+  m_Name: SkillList
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1082521562
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1082521561}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2076321665}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1082521563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1082521561}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11486976ded4c9944aa49d051b4c3d00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1104571725
 GameObject:
   m_ObjectHideFlags: 0
@@ -4684,7 +4907,7 @@ GameObject:
   - component: {fileID: 1380339722}
   - component: {fileID: 1380339723}
   m_Layer: 0
-  m_Name: buy button
+  m_Name: buy gems button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4702,7 +4925,7 @@ Transform:
   m_LocalScale: {x: 0.6295877, y: 0.512635, z: 0.7498}
   m_Children: []
   m_Father: {fileID: 2076321665}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1380339723
 SpriteRenderer:
@@ -5507,7 +5730,6 @@ GameObject:
   - component: {fileID: 1583992044}
   - component: {fileID: 1583992043}
   - component: {fileID: 1583992042}
-  - component: {fileID: 1583992045}
   m_Layer: 0
   m_Name: 23 skill
   m_TagString: Untagged
@@ -5569,11 +5791,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 23
+  skillCost:
+    mantissa: 0
+    exponent: 0
   layerOn: {fileID: 21300000, guid: 0530f2ff7039f444f98d3ea91e023dae, type: 3}
   layerPathOn: {fileID: 21300000, guid: fe457038c5562554da97924503023bee, type: 3}
   previousSkill: {fileID: 2055533376}
   pathObject: {fileID: 1381106547}
+  buyButton: {fileID: 584694916}
+  costText: {fileID: 345039796}
   activated: 0
+  isSelected: 0
   isFirst: 0
 --- !u!212 &1583992044
 SpriteRenderer:
@@ -5627,19 +5855,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1583992045
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1583992040}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 11486976ded4c9944aa49d051b4c3d00, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  id: 
 --- !u!1 &1590815860
 GameObject:
   m_ObjectHideFlags: 0
@@ -5931,7 +6146,6 @@ GameObject:
   - component: {fileID: 1640778992}
   - component: {fileID: 1640778991}
   - component: {fileID: 1640778993}
-  - component: {fileID: 1640778994}
   m_Layer: 0
   m_Name: 11 skill
   m_TagString: Untagged
@@ -5967,11 +6181,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 11
+  skillCost:
+    mantissa: 0
+    exponent: 0
   layerOn: {fileID: 21300000, guid: 0530f2ff7039f444f98d3ea91e023dae, type: 3}
   layerPathOn: {fileID: 21300000, guid: 9111fe62f78d86946b7fa4157ac59474, type: 3}
   previousSkill: {fileID: 199157981}
   pathObject: {fileID: 1231092495}
+  buyButton: {fileID: 584694916}
+  costText: {fileID: 345039796}
   activated: 0
+  isSelected: 0
   isFirst: 0
 --- !u!212 &1640778992
 SpriteRenderer:
@@ -6051,19 +6271,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.64, y: 0.64}
   m_EdgeRadius: 0
---- !u!114 &1640778994
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1640778989}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 11486976ded4c9944aa49d051b4c3d00, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  id: 
 --- !u!1 &1644640998
 GameObject:
   m_ObjectHideFlags: 0
@@ -6792,7 +6999,6 @@ GameObject:
   - component: {fileID: 1741167089}
   - component: {fileID: 1741167088}
   - component: {fileID: 1741167087}
-  - component: {fileID: 1741167090}
   m_Layer: 0
   m_Name: '33 skill '
   m_TagString: Untagged
@@ -6854,11 +7060,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 33
+  skillCost:
+    mantissa: 0
+    exponent: 0
   layerOn: {fileID: 21300000, guid: 0530f2ff7039f444f98d3ea91e023dae, type: 3}
   layerPathOn: {fileID: 21300000, guid: fe457038c5562554da97924503023bee, type: 3}
   previousSkill: {fileID: 292311556}
   pathObject: {fileID: 1138324281}
+  buyButton: {fileID: 584694916}
+  costText: {fileID: 345039796}
   activated: 0
+  isSelected: 0
   isFirst: 0
 --- !u!212 &1741167089
 SpriteRenderer:
@@ -6912,19 +7124,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1741167090
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1741167085}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 11486976ded4c9944aa49d051b4c3d00, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  id: 
 --- !u!1 &1741355175
 GameObject:
   m_ObjectHideFlags: 0
@@ -7536,7 +7735,6 @@ GameObject:
   - component: {fileID: 1968896557}
   - component: {fileID: 1968896556}
   - component: {fileID: 1968896555}
-  - component: {fileID: 1968896558}
   m_Layer: 0
   m_Name: 21 skill
   m_TagString: Untagged
@@ -7598,11 +7796,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 21
+  skillCost:
+    mantissa: 0
+    exponent: 0
   layerOn: {fileID: 21300000, guid: 0530f2ff7039f444f98d3ea91e023dae, type: 3}
   layerPathOn: {fileID: 21300000, guid: fe457038c5562554da97924503023bee, type: 3}
   previousSkill: {fileID: 199157981}
   pathObject: {fileID: 970688175}
+  buyButton: {fileID: 584694916}
+  costText: {fileID: 345039796}
   activated: 0
+  isSelected: 0
   isFirst: 0
 --- !u!212 &1968896557
 SpriteRenderer:
@@ -7656,19 +7860,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1968896558
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1968896553}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 11486976ded4c9944aa49d051b4c3d00, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  id: 
 --- !u!1 &2016087305
 GameObject:
   m_ObjectHideFlags: 0
@@ -7880,7 +8071,6 @@ GameObject:
   - component: {fileID: 2041977037}
   - component: {fileID: 2041977036}
   - component: {fileID: 2041977035}
-  - component: {fileID: 2041977038}
   m_Layer: 0
   m_Name: 12 skill
   m_TagString: Untagged
@@ -7942,11 +8132,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 12
+  skillCost:
+    mantissa: 0
+    exponent: 0
   layerOn: {fileID: 21300000, guid: 0530f2ff7039f444f98d3ea91e023dae, type: 3}
   layerPathOn: {fileID: 21300000, guid: fe457038c5562554da97924503023bee, type: 3}
   previousSkill: {fileID: 1640778989}
   pathObject: {fileID: 2047180331}
+  buyButton: {fileID: 584694916}
+  costText: {fileID: 345039796}
   activated: 0
+  isSelected: 0
   isFirst: 0
 --- !u!212 &2041977037
 SpriteRenderer:
@@ -8000,19 +8196,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &2041977038
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2041977033}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 11486976ded4c9944aa49d051b4c3d00, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  id: 
 --- !u!1 &2047180331
 GameObject:
   m_ObjectHideFlags: 0
@@ -8108,7 +8291,6 @@ GameObject:
   - component: {fileID: 2052636608}
   - component: {fileID: 2052636607}
   - component: {fileID: 2052636606}
-  - component: {fileID: 2052636609}
   m_Layer: 0
   m_Name: 31 skill
   m_TagString: Untagged
@@ -8170,11 +8352,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 31
+  skillCost:
+    mantissa: 0
+    exponent: 0
   layerOn: {fileID: 21300000, guid: 0530f2ff7039f444f98d3ea91e023dae, type: 3}
   layerPathOn: {fileID: 21300000, guid: 9111fe62f78d86946b7fa4157ac59474, type: 3}
   previousSkill: {fileID: 199157981}
   pathObject: {fileID: 443549278}
+  buyButton: {fileID: 584694916}
+  costText: {fileID: 345039796}
   activated: 0
+  isSelected: 0
   isFirst: 0
 --- !u!212 &2052636608
 SpriteRenderer:
@@ -8228,19 +8416,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &2052636609
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2052636604}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 11486976ded4c9944aa49d051b4c3d00, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  id: 
 --- !u!1 &2055533376
 GameObject:
   m_ObjectHideFlags: 0
@@ -8253,7 +8428,6 @@ GameObject:
   - component: {fileID: 2055533380}
   - component: {fileID: 2055533379}
   - component: {fileID: 2055533378}
-  - component: {fileID: 2055533381}
   m_Layer: 0
   m_Name: 22 skill
   m_TagString: Untagged
@@ -8315,11 +8489,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 22
+  skillCost:
+    mantissa: 0
+    exponent: 0
   layerOn: {fileID: 21300000, guid: 0530f2ff7039f444f98d3ea91e023dae, type: 3}
   layerPathOn: {fileID: 21300000, guid: fe457038c5562554da97924503023bee, type: 3}
   previousSkill: {fileID: 1968896553}
   pathObject: {fileID: 488361685}
+  buyButton: {fileID: 584694916}
+  costText: {fileID: 345039796}
   activated: 0
+  isSelected: 0
   isFirst: 0
 --- !u!212 &2055533380
 SpriteRenderer:
@@ -8373,19 +8553,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &2055533381
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2055533376}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 11486976ded4c9944aa49d051b4c3d00, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  id: 
 --- !u!1 &2076321664
 GameObject:
   m_ObjectHideFlags: 0
@@ -8417,8 +8584,10 @@ Transform:
   m_LocalScale: {x: 74.91, y: 92, z: 62.899994}
   m_Children:
   - {fileID: 637489182}
-  - {fileID: 1380339722}
   - {fileID: 991584910}
+  - {fileID: 1380339722}
+  - {fileID: 1082521562}
+  - {fileID: 584694917}
   m_Father: {fileID: 1659604979}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

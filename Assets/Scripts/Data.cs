@@ -28,7 +28,7 @@ public class Data
                 money = 1001.0;
                 dph = 1.0;
                 dps = 0.0;
-                gems = 0.0;
+                gems = 2.0;
                 stage = 1;
                 stageMax = 5;
                 kills = 0;

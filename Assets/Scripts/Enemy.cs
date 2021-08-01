@@ -40,8 +40,8 @@ public class Enemy : MonoBehaviour
 
     private void OnMouseUpAsButton()
     {
-        int CriticalCheck = new System.Random().Next(0, 100);
-        if (CriticalCheck > (1 - GameCtrl.data.CriticalChance))
+        double criticalCheck = Random.Range(0,101);
+        if (criticalCheck > (100 - GameCtrl.data.CriticalChance))
         {
             health -= GameCtrl.data.CriticalDamage * GameCtrl.data.dph;
         }
