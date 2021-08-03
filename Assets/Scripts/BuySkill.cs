@@ -12,6 +12,7 @@ public class BuySkill : MonoBehaviour
     {
         if (GameCtrl.data.gems >= SkillList.SkillCost(id))
         {
+            GameCtrl.data.gems -= SkillList.SkillCost(id);
             SkillList.SetSkillCondition(id,true);
         }
     }

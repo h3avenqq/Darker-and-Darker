@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,30 +13,45 @@ public class Skill : MonoBehaviour
     public BigDouble skillCost;
 
     public Sprite layerOn;
+    public Sprite layerOff;
     public Sprite layerPathOn;
+    public Sprite layerSelectedOn;
 
     public GameObject previousSkill;
     public GameObject pathObject;
     public GameObject buyButton;
+    public GameObject infoPanel;
 
     public Text costText;
+    public Text infoText;
     
     public bool activated;
-    public bool isSelected = false;
     public bool isFirst = false;
 
     private void Start()
     {
         skillCost = SkillList.SkillCost(id);
+        infoText.text = SkillList.GetInfoSkill(id);
     }
 
     private void OnMouseUpAsButton()
     {
+        SkillList.SelectedSwitcher(id);
         if (!activated)
         {
             costText.text = WordNotation(skillCost,"F0") + " Gems";
             buyButton.GetComponent<BuySkill>().id = id;
         }
+    }
+
+    private void OnMouseDown()
+    {
+        infoPanel.SetActive(true);
+    }
+
+    private void OnMouseUp()
+    {
+        infoPanel.SetActive(false);
     }
 
     private void Update()
@@ -49,8 +65,15 @@ public class Skill : MonoBehaviour
             {
                 pathObject.GetComponent<SpriteRenderer>().sprite = layerPathOn;
             }
+        } else
+        {
+            GetComponent<SpriteRenderer>().sprite = layerOff;
         }
-        
+
+        if (SkillList.GetSkillSelected(id))
+        {
+            GetComponent<SpriteRenderer>().sprite = layerSelectedOn;
+        }
     }
     
     public static string WordNotation(BigDouble number, string digits)
