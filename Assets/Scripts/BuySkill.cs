@@ -10,7 +10,7 @@ public class BuySkill : MonoBehaviour
 
     private void OnMouseUpAsButton()
     {
-        if (GameCtrl.data.gems >= SkillList.SkillCost(id))
+        if (GameCtrl.data.gems >= SkillList.SkillCost(id) && !SkillList.GetSkillCondition(id))
         {
             GameCtrl.data.gems -= SkillList.SkillCost(id);
             SkillList.SetSkillCondition(id,true);

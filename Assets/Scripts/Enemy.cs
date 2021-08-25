@@ -16,12 +16,16 @@ public class Enemy : MonoBehaviour
     }
 
 
-    public static bool a = false;
+    public static bool a = false;//пофикси эту хуйню уебище
 
     public Image healthBar;
 
     public Text healthText;
 
+    public static bool doubleAttack;
+
+    public static int doubleAttackTime = 0;
+    
     private void Start()
     {
         health = healthMax;
@@ -48,6 +52,24 @@ public class Enemy : MonoBehaviour
         else
         {
             health -= GameCtrl.data.dph;
+        }
+
+        if (doubleAttack)
+        {
+            criticalCheck = Random.Range(0,101);
+            if (criticalCheck > (100 - GameCtrl.data.CriticalChance))
+            {
+                health -= GameCtrl.data.CriticalDamage * GameCtrl.data.dph;
+                Debug.Log("crit double attack");
+            }
+            else
+            {
+                health -= GameCtrl.data.dph;
+            }
+
+            doubleAttack = false;
+            doubleAttackTime = 0;
+            Debug.Log("Double attack");
         }
     }
 

@@ -36,7 +36,7 @@ public class GameCtrl : MonoBehaviour
 
     public void Start()
     {
-        StartCoroutine("DpsDealer");
+        StartCoroutine("DpsDealerAndDoubleAttack");
     }
     
     public void Update()
@@ -62,9 +62,19 @@ public class GameCtrl : MonoBehaviour
         IsBossChecker();
     }
 
-    IEnumerator DpsDealer() {
+    private IEnumerator DpsDealerAndDoubleAttack()
+    {
         for(;;) {
             Enemy.health -= data.dps;
+            if (data.DoubleAttack && !Enemy.doubleAttack)
+            {
+                Enemy.doubleAttackTime++;
+            }
+
+            if (Enemy.doubleAttackTime == data.DoubleAttackTime)
+            {
+                Enemy.doubleAttack = true;
+            }
             yield return new WaitForSeconds(1);
         }
     }

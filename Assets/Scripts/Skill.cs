@@ -42,6 +42,10 @@ public class Skill : MonoBehaviour
             costText.text = WordNotation(skillCost,"F0") + " Gems";
             buyButton.GetComponent<BuySkill>().id = id;
         }
+        else
+        {
+            costText.text = "Sold";
+        }
     }
 
     private void OnMouseDown()

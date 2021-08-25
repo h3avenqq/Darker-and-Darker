@@ -22,13 +22,15 @@ public class Data
         //Crits
         public double CriticalDamage;
         public double CriticalChance;
+        public bool DoubleAttack;
+        public int DoubleAttackTime;
 
         public Data()
         {
                 money = 1001.0;
                 dph = 1.0;
                 dps = 0.0;
-                gems = 2.0;
+                gems = 100.0;
                 stage = 1;
                 stageMax = 5;
                 kills = 0;
@@ -42,6 +44,8 @@ public class Data
                 OfflineProgressCheck = 1;
                 CriticalDamage = 1.5;
                 CriticalChance = 0;
+                DoubleAttack = false;
+                DoubleAttackTime = 7;
         }
 }
 

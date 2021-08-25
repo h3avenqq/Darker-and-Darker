@@ -31,16 +31,19 @@ public class SkillList : MonoBehaviour
     public static bool skillSelected33 = false;
 
     //Info about skill
-    public static string skillInfo0 = "This ability gives you permission to learn skills.";
-    public static string skillInfo11 = "Info about this skill";
-    public static string skillInfo12= "Info about this skill";
-    public static string skillInfo13= "Info about this skill";
-    public static string skillInfo21= "Info about this skill";
-    public static string skillInfo22= "Info about this skill";
-    public static string skillInfo23= "Info about this skill";
-    public static string skillInfo31= "Info about this skill";
-    public static string skillInfo32= "Info about this skill";
-    public static string skillInfo33= "Info about this skill";
+    public static string skillInfo0 = "For a couple of gems, the Gods will give you " +
+                                      "the opportunity to strengthen yourself to an incredible level";
+    public static string skillInfo11 = "Pay and the Gods will guide your blade to make it stronger\nCritical Chance: 15%";
+    public static string skillInfo12 = "Prove your benefits to the Gods and they will give your muscles unprecedented strength" +
+                                       "\nCritical Damage: x2";
+    public static string skillInfo13 = "Give the Gods what is dear to you and they will help you in battle" +
+                                       "\n Double attack every 7 seconds";
+    public static string skillInfo21 = "Info about this skill";
+    public static string skillInfo22 = "Info about this skill";
+    public static string skillInfo23 = "Info about this skill";
+    public static string skillInfo31 = "Info about this skill";
+    public static string skillInfo32 = "Info about this skill";
+    public static string skillInfo33 = "Info about this skill";
     
     
     public static void SkillProperty(string id)
@@ -53,8 +56,10 @@ public class SkillList : MonoBehaviour
                 GameCtrl.data.CriticalChance = 15;
                 break;
             case "12":
+                GameCtrl.data.CriticalDamage = 2;
                 break;
             case "13":
+                GameCtrl.data.DoubleAttack = true;
                 break;
             case "21":
                 break;
