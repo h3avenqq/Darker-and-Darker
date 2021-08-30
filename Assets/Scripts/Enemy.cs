@@ -16,14 +16,13 @@ public class Enemy : MonoBehaviour
     }
 
 
-    public static bool a = false;//пофикси эту хуйню уебище
-
+    public static bool a = false;//пофикси эту хуйню уебище на максиме
+    public static bool doubleAttack;
+    
     public Image healthBar;
 
     public Text healthText;
-
-    public static bool doubleAttack;
-
+    
     public static int doubleAttackTime = 0;
     
     private void Start()

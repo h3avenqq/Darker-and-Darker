@@ -29,10 +29,13 @@ public class GameCtrl : MonoBehaviour
     public Text usernameText;
 
     public Image timerBar;
-
-
+    
     public GameObject[] enemy = new GameObject[2];
     public GameObject[] boss = new GameObject[1];
+    
+    //double attack for hero
+    public static bool doubleAttackHero;
+    public static int doubleAttackTimeHero = 0;
 
     public void Start()
     {
@@ -65,7 +68,6 @@ public class GameCtrl : MonoBehaviour
     private IEnumerator DpsDealerAndDoubleAttack()
     {
         for(;;) {
-            Enemy.health -= data.dps;
             if (data.DoubleAttack && !Enemy.doubleAttack)
             {
                 Enemy.doubleAttackTime++;
@@ -75,6 +77,45 @@ public class GameCtrl : MonoBehaviour
             {
                 Enemy.doubleAttack = true;
             }
+            //critical damage ane double attack for hero
+            if (data.DoubleAttackHero && !doubleAttackHero)
+            {
+                doubleAttackTimeHero++;
+            }
+
+            if (doubleAttackTimeHero == data.DoubleAttackTimeHero)
+            {
+                doubleAttackHero = true;
+            }
+            
+            double criticalCheckHero = Random.Range(0,101);
+            if (criticalCheckHero > (100 - GameCtrl.data.CriticalChanceHero))
+            {
+                Enemy.health -= GameCtrl.data.CriticalDamageHero * GameCtrl.data.dps;
+            }
+            else
+            {
+                Enemy.health -= GameCtrl.data.dps;
+            }
+
+            if (doubleAttackHero)
+            {
+                criticalCheckHero = Random.Range(0,101);
+                if (criticalCheckHero > (100 - GameCtrl.data.CriticalChanceHero))
+                {
+                    Enemy.health -= GameCtrl.data.CriticalDamageHero * GameCtrl.data.dps;
+                    Debug.Log("hero crit double attack");
+                }
+                else
+                {
+                    Enemy.health -= GameCtrl.data.dps;
+                }
+
+                doubleAttackHero = false;
+                doubleAttackTimeHero = 0;
+                Debug.Log("hero Double attack");
+            }
+            
             yield return new WaitForSeconds(1);
         }
     }

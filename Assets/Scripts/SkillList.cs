@@ -38,9 +38,10 @@ public class SkillList : MonoBehaviour
                                        "\nCritical Damage: x2";
     public static string skillInfo13 = "Give the Gods what is dear to you and they will help you in battle" +
                                        "\n Double attack every 7 seconds";
-    public static string skillInfo21 = "Info about this skill";
-    public static string skillInfo22 = "Info about this skill";
-    public static string skillInfo23 = "Info about this skill";
+    public static string skillInfo21 = "For a couple of gems, the Gods will give you " +
+                                       "the opportunity to strengthen your aliies to an incredible level";
+    public static string skillInfo22 = "Pay and the Gods will guide your allied blades to make it stronger\nCritical Chance: 15%";
+    public static string skillInfo23 = "Give the Gods what is dear to you and they will help your allies in battle";
     public static string skillInfo31 = "Info about this skill";
     public static string skillInfo32 = "Info about this skill";
     public static string skillInfo33 = "Info about this skill";
@@ -62,10 +63,13 @@ public class SkillList : MonoBehaviour
                 GameCtrl.data.DoubleAttack = true;
                 break;
             case "21":
+                GameCtrl.data.CriticalChanceHero = 15;
                 break;
             case "22":
+                GameCtrl.data.CriticalDamageHero = 2;
                 break;
             case "23":
+                GameCtrl.data.DoubleAttackHero = true;
                 break;
             case "31":
                 break;
