@@ -38,12 +38,14 @@ public class SkillList : MonoBehaviour
                                        "\nCritical Damage: x2";
     public static string skillInfo13 = "Give the Gods what is dear to you and they will help you in battle" +
                                        "\n Double attack every 7 seconds";
-    public static string skillInfo21 = "Info about this skill";
-    public static string skillInfo22 = "Info about this skill";
-    public static string skillInfo23 = "Info about this skill";
-    public static string skillInfo31 = "Info about this skill";
-    public static string skillInfo32 = "Info about this skill";
-    public static string skillInfo33 = "Info about this skill";
+    public static string skillInfo21 = "For a couple of gems, the Gods will give you " +
+                                       "the opportunity to strengthen your aliies to an incredible level";
+    public static string skillInfo22 = "Pay and the Gods will guide your allied blades to make it stronger\nCritical Chance: 15%";
+    public static string skillInfo23 = "Give the Gods what is dear to you and they will help your allies in battle";
+    public static string skillInfo31 = "For a few gems, you can sign a contract to kill and earn extra gold\nMoney multiplier: 1.5x";
+    public static string skillInfo32 = "For a small fee, the Gods will give you untold riches\nMoney per second multiplier: 1.3x";
+    public static string skillInfo33 = "MORE GOLD TO THE GOD OF GOLDM ORE GOLD TO THE GOD OF GOLD MORE GOLD TO THE GOD OF GOLD" +
+                                       "Money multiplier multiplier: 2x";
     
     
     public static void SkillProperty(string id)
@@ -62,16 +64,22 @@ public class SkillList : MonoBehaviour
                 GameCtrl.data.DoubleAttack = true;
                 break;
             case "21":
+                GameCtrl.data.CriticalChanceHero = 15;
                 break;
             case "22":
+                GameCtrl.data.CriticalDamageHero = 2;
                 break;
             case "23":
+                GameCtrl.data.DoubleAttackHero = true;
                 break;
             case "31":
+                GameCtrl.data.MoneyForKillMultiply = 1.5;
                 break;
             case "32":
+                GameCtrl.data.MoneyPerSecMultiply = 1.3;
                 break;
             case "33":
+                GameCtrl.data.MoneyMultiply = 2;
                 break;
             default:
                 Debug.Log("Wrong id");

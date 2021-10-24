@@ -10,16 +10,16 @@ using static BreakInfinity.BigDouble;
 public class GameCtrl : MonoBehaviour
 {
     public static Data data = new Data();
-
-    public int i;
     
     public BigDouble moneyPerSec
     {
         get
         {
-            return Ceiling(Enemy.healthMax / 14) / Enemy.healthMax * data.dps;
+            return Ceiling(Enemy.healthMax / 14) / Enemy.healthMax * data.dph*data.MoneyPerSecMultiply;
         }
     }
+
+    public int multiplierTimer = 0;
     
     public float timer;
     public float timerMax = 30;
@@ -31,10 +31,14 @@ public class GameCtrl : MonoBehaviour
     public Text usernameText;
 
     public Image timerBar;
-
-
+    
     public GameObject[] enemy = new GameObject[2];
     public GameObject[] boss = new GameObject[1];
+    public GameObject multiplier;
+    
+    //double attack for hero
+    public static bool doubleAttackHero;
+    public static int doubleAttackTimeHero = 0;
 
     
     
@@ -49,10 +53,14 @@ public class GameCtrl : MonoBehaviour
     
     public void Start()
     {
+<<<<<<< HEAD
         data = SaveSystem.SaveExists("Darker&Darker")
             ? SaveSystem.LoadData<Data>("Darker&Darker")
             : new Data();
         StartCoroutine("DpsDealerAndDoubleAttack");
+=======
+        StartCoroutine("ActionPerSecond");
+>>>>>>> 52e98c3e59fa0a43a845e199c4196f3631ebc5d8
     }
     
     public void Update()
@@ -60,7 +68,7 @@ public class GameCtrl : MonoBehaviour
         if (Enemy.health <= 0)
         {
             Kill();
-            data.money += Ceiling(Enemy.healthMax / 14);
+            data.money += Ceiling(Enemy.healthMax / 14)*data.MoneyForKillMultiply;
             data.kills++;
             if (data.kills >= data.killsMax)
             {
@@ -85,10 +93,12 @@ public class GameCtrl : MonoBehaviour
         IsBossChecker();
     }
 
-    private IEnumerator DpsDealerAndDoubleAttack()
+    private IEnumerator ActionPerSecond()
     {
-        for(;;) {
-            Enemy.health -= data.dps;
+        for(;;)
+        {
+            data.money += moneyPerSec;
+            //double attack 
             if (data.DoubleAttack && !Enemy.doubleAttack)
             {
                 Enemy.doubleAttackTime++;
@@ -98,6 +108,63 @@ public class GameCtrl : MonoBehaviour
             {
                 Enemy.doubleAttack = true;
             }
+            //critical damage ane double attack for hero
+            if (data.DoubleAttackHero && !doubleAttackHero)
+            {
+                doubleAttackTimeHero++;
+            }
+
+            if (doubleAttackTimeHero == data.DoubleAttackTimeHero)
+            {
+                doubleAttackHero = true;
+            }
+            
+            double criticalCheckHero = Random.Range(0,101);
+            if (criticalCheckHero > (100 - GameCtrl.data.CriticalChanceHero))
+            {
+                Enemy.health -= GameCtrl.data.CriticalDamageHero * GameCtrl.data.dps;
+            }
+            else
+            {
+                Enemy.health -= GameCtrl.data.dps;
+            }
+
+            if (doubleAttackHero)
+            {
+                criticalCheckHero = Random.Range(0,101);
+                if (criticalCheckHero > (100 - GameCtrl.data.CriticalChanceHero))
+                {
+                    Enemy.health -= GameCtrl.data.CriticalDamageHero * GameCtrl.data.dps;
+                    Debug.Log("hero crit double attack");
+                }
+                else
+                {
+                    Enemy.health -= GameCtrl.data.dps;
+                }
+
+                doubleAttackHero = false;
+                doubleAttackTimeHero = 0;
+                Debug.Log("hero Double attack");
+            }
+            
+            //Multiplier
+            if (!data.MoneyMultiplyCondition)
+            {
+                multiplierTimer++;
+            }
+            
+            if(multiplierTimer==data.MoneyMultiplyTimer)
+            {
+                data.MoneyMultiplyCondition = true;
+                double check = Random.Range(0,101);
+                if(check > (100 - GameCtrl.data.MoneyMultiplyChance))
+                {
+                    multiplier.gameObject.SetActive(true);
+                }
+                multiplierTimer = 0;
+            }
+            
+            
             yield return new WaitForSeconds(1);
         }
     }

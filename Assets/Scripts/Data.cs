@@ -20,11 +20,22 @@ public class Data
         public int heroLevel3;
         public int playerLevel;
         public int OfflineProgressCheck;
+        //Multiplier
+        public double MoneyMultiply;
+        public double MoneyMultiplyChance;
+        public bool MoneyMultiplyCondition;
+        public int MoneyMultiplyTimer;
+        public double MoneyForKillMultiply;
+        public double MoneyPerSecMultiply;
         //Crits
         public double CriticalDamage;
         public double CriticalChance;
+        public double CriticalDamageHero;
+        public double CriticalChanceHero;
         public bool DoubleAttack;
         public int DoubleAttackTime;
+        public bool DoubleAttackHero;
+        public int DoubleAttackTimeHero;
 
         public Data()
         {
@@ -46,8 +57,18 @@ public class Data
                 OfflineProgressCheck = 1;
                 CriticalDamage = 1.5;
                 CriticalChance = 0;
+                CriticalDamageHero = 1.5;
+                CriticalChanceHero = 0;
                 DoubleAttack = false;
                 DoubleAttackTime = 7;
+                DoubleAttackHero = false;
+                DoubleAttackTimeHero = 7;
+                MoneyPerSecMultiply = 1;
+                MoneyForKillMultiply = 1;
+                MoneyMultiply = 1;
+                MoneyMultiplyCondition = false;
+                MoneyMultiplyTimer = 5;
+                MoneyMultiplyChance = 20;
         }
 }
 
