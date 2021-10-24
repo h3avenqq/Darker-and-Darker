@@ -8,6 +8,7 @@ public class Data
         public BigDouble dph;
         public BigDouble dps;
         public BigDouble gems;
+        public BigDouble diamonds;
         public int stage;
         public int stageMax;
         public int kills;
@@ -31,6 +32,7 @@ public class Data
                 dph = 1.0;
                 dps = 0.0;
                 gems = 100.0;
+                diamonds = 0.0;
                 stage = 1;
                 stageMax = 5;
                 kills = 0;

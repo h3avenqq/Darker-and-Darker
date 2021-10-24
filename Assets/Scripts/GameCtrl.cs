@@ -1,7 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 using System.Collections;
+using TMPro;
 using BreakInfinity;
 using static BreakInfinity.BigDouble;
 
@@ -34,8 +36,22 @@ public class GameCtrl : MonoBehaviour
     public GameObject[] enemy = new GameObject[2];
     public GameObject[] boss = new GameObject[1];
 
+    
+    
+    //save system
+    public DateTime currentTime;
+    public DateTime oldTime;
+    public float IdleTime;
+    public Text offlineTimeText;
+    public float saveTime;
+    public GameObject offlineBox;
+    public int offlineLoadCount;
+    
     public void Start()
     {
+        data = SaveSystem.SaveExists("Darker&Darker")
+            ? SaveSystem.LoadData<Data>("Darker&Darker")
+            : new Data();
         StartCoroutine("DpsDealerAndDoubleAttack");
     }
     
@@ -58,7 +74,14 @@ public class GameCtrl : MonoBehaviour
         killsText.text = "Kills: " + data.kills + "/" + data.killsMax;
         stageText.text = "Stage: " + data.stage;
         moneyText.text = "Gold: " + WordNotation(data.money, "F2");
-        usernameText.text = data.username;
+        // usernameText.text = data.username;
+        // offlineBox.gameObject.SetActive(false);
+        //multBox.gameObject.SetActive(false);
+        // LoadOfflineProduction();
+        // if (data.username == "<Username>")
+        //     usernameBox.gameObject.SetActive(true);
+        // else
+        //     usernameBox.gameObject.SetActive(false);
         IsBossChecker();
     }
 
@@ -83,12 +106,12 @@ public class GameCtrl : MonoBehaviour
     {
         if(data.stage%5!=0)
         {
-            int i = Random.Range(0,2);
+            int i = UnityEngine.Random.Range(0,2);
             Instantiate(enemy[i],enemy[i].transform.position, Quaternion.identity);
         }
         else
         {
-            int i = Random.Range(0,1);
+            int i = UnityEngine.Random.Range(0,1);
             Instantiate(boss[i],boss[i].transform.position, Quaternion.identity);
         }
     }
@@ -134,6 +157,30 @@ public class GameCtrl : MonoBehaviour
         data.stage++;
     }
 
+    public void LoadOfflineProduction()
+    {
+        if (data.OfflineProgressCheck == 1)
+        {
+            offlineBox.gameObject.SetActive(true);
+            long previousTime = Convert.ToInt64(PlayerPrefs.GetString("OfflineTime"));
+            oldTime = DateTime.FromBinary(previousTime);
+            currentTime = DateTime.Now;
+            TimeSpan difference = currentTime.Subtract(oldTime);
+            IdleTime = (float)difference.TotalSeconds;
+
+            var moneyToEarn = Ceiling(Enemy.healthMax / 14) / Enemy.healthMax * (data.dps / 5) * IdleTime;
+            data.money += moneyToEarn;
+            TimeSpan timer = TimeSpan.FromSeconds(IdleTime);
+
+            offlineTimeText.text = "You were gone for: " + timer.ToString(@"hh\:mm\:ss") + "\nand earned " + moneyToEarn.ToString("F2") + " coins";
+        }
+    }
+
+    public void CloseOfflineBox()
+    {
+        offlineBox.gameObject.SetActive(false);
+    }
+    
     public static string WordNotation(BigDouble number, string digits)
     {
         var prefixes = new Dictionary<BigDouble, string>
