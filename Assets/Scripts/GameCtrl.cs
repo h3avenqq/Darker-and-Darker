@@ -51,16 +51,14 @@ public class GameCtrl : MonoBehaviour
     public GameObject offlineBox;
     public int offlineLoadCount;
     
+    private const string dataFileName = "Darker&Darker";
+    
     public void Start()
     {
-<<<<<<< HEAD
         data = SaveSystem.SaveExists("Darker&Darker")
             ? SaveSystem.LoadData<Data>("Darker&Darker")
             : new Data();
-        StartCoroutine("DpsDealerAndDoubleAttack");
-=======
-        StartCoroutine("ActionPerSecond");
->>>>>>> 52e98c3e59fa0a43a845e199c4196f3631ebc5d8
+StartCoroutine("ActionPerSecond");
     }
     
     public void Update()
@@ -91,6 +89,19 @@ public class GameCtrl : MonoBehaviour
         // else
         //     usernameBox.gameObject.SetActive(false);
         IsBossChecker();
+        saveTime += Time.deltaTime * (1 / Time.timeScale);
+        if (saveTime >= 15)
+        {
+            SaveSystem.SaveData(data, dataFileName);
+            saveTime = 0;
+            SaveOfflineTime();
+        }
+    }
+    
+    public void SaveOfflineTime()
+    {
+        PlayerPrefs.SetString("OfflineTime", DateTime.Now.ToBinary().ToString());
+        data.OfflineProgressCheck = 1;
     }
 
     private IEnumerator ActionPerSecond()
@@ -119,7 +130,7 @@ public class GameCtrl : MonoBehaviour
                 doubleAttackHero = true;
             }
             
-            double criticalCheckHero = Random.Range(0,101);
+            double criticalCheckHero = UnityEngine.Random.Range(0,101);
             if (criticalCheckHero > (100 - GameCtrl.data.CriticalChanceHero))
             {
                 Enemy.health -= GameCtrl.data.CriticalDamageHero * GameCtrl.data.dps;
@@ -131,7 +142,7 @@ public class GameCtrl : MonoBehaviour
 
             if (doubleAttackHero)
             {
-                criticalCheckHero = Random.Range(0,101);
+                criticalCheckHero = UnityEngine.Random.Range(0,101);
                 if (criticalCheckHero > (100 - GameCtrl.data.CriticalChanceHero))
                 {
                     Enemy.health -= GameCtrl.data.CriticalDamageHero * GameCtrl.data.dps;
@@ -156,7 +167,7 @@ public class GameCtrl : MonoBehaviour
             if(multiplierTimer==data.MoneyMultiplyTimer)
             {
                 data.MoneyMultiplyCondition = true;
-                double check = Random.Range(0,101);
+                double check = UnityEngine.Random.Range(0,101);
                 if(check > (100 - GameCtrl.data.MoneyMultiplyChance))
                 {
                     multiplier.gameObject.SetActive(true);
